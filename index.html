@@ -8,21 +8,42 @@
 </head>
 <body>
 
-    <div class="sticky" id="container">
-    	<div class="display"></div>
-    	<div class="container" id="digits">
-			<button id="&">%</button>
-		    <button id=".">.</button>
-			<button id="0">0-</button>
-			<button id="1">1</button>
-			<button id="2">2</button>
-			<button id="3">3</button>
-			<button id="4">4</button>
-			<button id="5">5</button>
-			<button id="6">6</button>
-			<button id="7">7</button>
-			<button id="8">8</button>
-			<button id="9">9</button>
+   <div class="calculator">
+    
+		<div id="screen"></div>	
+		
+		<div id="controls">
+			<div id="upper-line">
+				<button class="button clearing-operator" id="btn-all-clear">AC</button>
+				<button class="button extra-operator" id="btn-percentage">%</button>
+				<button class="button extra-operator" id="btn-square">x²</button>
+				<button class="button extra-operator" id="btn-square-root">√</button>
+			</div>
+			
+			<div id="left-block">
+				<button class="button digit" id="btn-point">.</button>
+				<button class="button digit" id="btn-0">0</button>
+				<button class="button digit" id="btn-1">1</button>
+				<button class="button digit" id="btn-2">2</button>
+				<button class="button digit" id="btn-3">3</button>
+				<button class="button digit" id="btn-4">4</button>
+				<button class="button digit" id="btn-5">5</button>
+				<button class="button digit" id="btn-6">6</button>
+				<button class="button digit" id="btn-7">7</button>
+				<button class="button digit" id="btn-8">8</button>
+				<button class="button digit" id="btn-9">9</button>
+				<button class="button clearing-operator" id="btn-clear">C</button>
+			</div>
+			
+			<div id="right-block">
+				<button class="button basic-operator" id="btn-addition">+</button>
+				<button class="button basic-operator" id="btn-subtraction">-</button>
+				<button class="button basic-operator" id="btn-multiplication">×</button>
+				<button class="button basic-operator" id="btn-division">÷</button>
+				<button class="button extra-operator" id="btn-factorial">!</button>
+				<button class="button extra-operator" id="btn-modulo">MOD</button>
+				<button class="button extra-operator" id="btn-equals">=</button>
+			</div>
 		</div>
     </div>
 

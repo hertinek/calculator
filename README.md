@@ -9,21 +9,27 @@ This calculator handles:
 		- division
 	- operations with one operand:
 		- percentage
-		- exponant
+		- square
 		- square root
 		- factorial
+		- modulo
 		
 Available buttons:
 	- 10 digits (0 to 9)
 	- decimal point (.)
-	- percentage (%)
+	
 	- 4 basic operators (+ - × ÷)
-	- squared (x²)
+	
+	- percentage (%)
+	- square (x²)
 	- square root (√)
 	- factorial (!)
 	- modulo (MOD)
+	
+	- equals (=)
+	
 	- All Clear (AC)
 	- Clear (C)
-	- equals (=)
+
 		
 The calculator starts with an empty screen
