@@ -32,7 +32,7 @@ Available keys on the keyboard (tested):
 	- + - = / *
 	
 //missing keys (to be corrected):
-	point on num keypad, point and comma on letter pad
+
 	×
 	letter x (for mult)
 	÷
@@ -40,6 +40,7 @@ Available keys on the keyboard (tested):
 	%
 	letter V (for square root)
 	!
+	² or S (for square)
 	
 // at some point treat "=" like "enter" or "equals"
 	

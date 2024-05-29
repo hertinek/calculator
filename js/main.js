@@ -87,9 +87,9 @@ let operand2 = "";
 
 document.addEventListener('keydown', event => {
 	key = event.key;
-	if (/^[0-9*+\-/=]$/.test(key) || key === 'Enter') {
+	if (/^[0-9*+\-/=.,×S÷M%V!²]$/.test(key) || key === 'Enter') {
 		console.log(key);
-		//code handleInput(key);
+		//normalizeInput(key);
 	};
 });
 
@@ -99,37 +99,14 @@ buttons.addEventListener('click', event => {
 	if(input.tagName === 'BUTTON') {
 		const buttonId = input.id;
 		console.log(buttonId);
-		//handleInput(buttonId);
+		//normalizeInput(buttonId);
 	}
 });
+
+//Declare normalizeInput() that will take all the inputs given by the keyboard or the buttons, transform them into new standardized inputs, and feed them to the function handleInput that will deal with them.
 
 
 //Declare handleInput(input) that will be invoked by the preceding functions described previously. Depending on the variable "state", handleInput() will treat differently the inputs.
 
 
 
-
-
-
-
-
-/*
-	document.addEventListener('keydown', event => {
-		key = event.key;
-		if (/^[0-9*+\-/=]$/.test(key) || key === 'Enter') {
-			//code handleInput(key);
-		};
-	});
-	
-	
-	const buttons = document.querySelector('.buttons');
-	buttons.addEventListener('click', event => {
-		const input = event.target;
-		if(input.tagName === 'button') {
-			const buttonId = target.id;
-			handleInput(buttonId);
-		}
-	});
-	
-	
-*/
