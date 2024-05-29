@@ -1,11 +1,20 @@
-//Declare 4 functions for the 4 basic operations that will update and use a and b
+//Declare 4 functions for the 4 basic operations that will update and use a and b, plus the modulo operator (not basic, but binary):
 
 const add = (a, b) => a + b;
 const sub = (a, b) => a - b;
-const div = (a, b) => a / b;
+const div = (a, b) => {
+	if(b === 0) {
+	return error }
+	return a / b;
+};
 const mult = (a, b) => a * b;
+const modulo = (a, b) => {
+	if(b === 0) {
+	return error }
+	return a % b;
+};
 
-//? Declare functions for single-operand operations: percentage, square, square root, factorial, modulo.
+//? Declare functions for unary operations: percentage, square, square root, factorial.
 
 const percent = a => a * 0.01;
 
@@ -29,11 +38,9 @@ function facto(a) {
 	for (let i = 2; i <= a; i++) {
 		result *= i;
 	}
-	return result;
-}
+		return result;
+};
 
-const modulo = (a, b) => a % b;
-	
 
 
 //Declare variable "state" (that will eventually have 4 possible values: "Waiting for operand 1", 'Waiting for operand 2", "Error", "Result")
@@ -43,7 +50,7 @@ let state = "Waiting for operarand 1"
 //Declare function called "calculate" that requires three variables (operand1, operator, operand2) that will each invoke one of the functions for basic operations. This function will be invoked when "equals" value is received (keyboard with enter or button "=" pressed) under "Waiting for operand 2" state, and will receive as arguments the values stored at that moment.
 
 
-function calculate(operand1, operator, operand2) {
+function calculateBinaryOp(operand1, operator, operand2) {
 	if(operator === "+") {
 		return add(operand1, operand2);
 	} else if(operator === "-") {
@@ -57,6 +64,18 @@ function calculate(operand1, operator, operand2) {
 	};
 };
 
+function calculateUnaryOp(operand1, operator) {
+	if(operator === "%") {
+		return percent(operand1);
+	} else if(operator === "x²") {
+		return square(operand1);
+	} else if(operator === "√") {
+		return sqrt(operand1);
+	} else if(operator === "!") {
+		return facto(operand1);
+	};
+};
+
 
 //Declare variables "operand1", "operator", and "operand2", all with empty strings as starting values
 
@@ -64,7 +83,16 @@ let operand1 = "";
 let operator = "";
 let operand2 = "";
 
-//Listen to Keyboard events AND to button events, both eventually calling the same function handleInput(input) to declare right after. The keyboard event function will have to return a normalizedInput for his handleInput(), to be sure that the input corresponds to the same id of the buttons (who will be named after regular methematical operators). The keyboard event function must also filter in only the necessary characters (digits and operators).
+//Listen to Keyboard events AND to button events, both eventually calling the same function handleInput(input) when "equals" is pressed. The keyboard event function will have to return a normalizedInput for his handleInput(), to be sure that the input corresponds to the same id of the buttons (who will be named after regular methematical operators). The keyboard event function must also filter in only the necessary characters (digits and operators).
+
+document.addEventListener('keydown', event => {
+	key = event.key;
+	if (/^[0-9*+\-/=]$/.test(key) || key === 'Enter') {
+		console.log(key);
+		//code handleInput(key);
+	};
+});
+
 
 //Declare handleInput(input) that will be invoked by the preceding functions described previously. Depending on the variable "state", handleInput() will treat differently the inputs.
 
@@ -87,7 +115,7 @@ let operand2 = "";
 	const buttons = document.querySelector('.buttons');
 	buttons.addEventListener('click', event => {
 		const input = event.target;
-		if(input.tagName === 'BUTTON') {
+		if(input.tagName === 'button') {
 			const buttonId = target.id;
 			handleInput(buttonId);
 		}
