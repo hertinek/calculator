@@ -42,11 +42,6 @@ function facto(a) {
 };
 
 
-
-//Declare variable "state" (that will eventually have 4 possible values: "Waiting for operand 1", 'Waiting for operand 2", "Error", "Result")
-
-let state = "Waiting for operarand 1"
-
 //Declare function called "calculate" that requires three variables (operand1, operator, operand2) that will each invoke one of the functions for basic operations. This function will be invoked when "equals" value is received (keyboard with enter or button "=" pressed) under "Waiting for operand 2" state, and will receive as arguments the values stored at that moment.
 
 
@@ -83,13 +78,12 @@ let operand1 = "";
 let operator = "";
 let operand2 = "";
 
-//Listen to Keyboard events AND to button events, both eventually calling the same function handleInput(input) when "equals" is pressed. The keyboard event function will have to return a normalizedInput for his handleInput(), to be sure that the input corresponds to the same id of the buttons (who will be named after regular methematical operators). The keyboard event function must also filter in only the necessary characters (digits and operators).
+//Listen to keyboard events AND to button events. The keyboard event function must also filter in only the necessary characters (digits and operators).
 
 document.addEventListener('keydown', event => {
 	key = event.key;
 	if (/^[0-9*+\-/=.,×S÷M%V!²]$/.test(key) || key === 'Enter') {
-		console.log(key);
-		//normalizeInput(key);
+		normalizeInput(key);
 	};
 });
 
@@ -97,16 +91,38 @@ const buttons = document.querySelector("#controls");
 buttons.addEventListener('click', event => {
 	const input = event.target;
 	if(input.tagName === 'BUTTON') {
-		const buttonId = input.id;
-		console.log(buttonId);
-		//normalizeInput(buttonId);
+		const buttonText = input.textContent;
+		normalizeInput(buttonText);
 	}
 });
 
-//Declare normalizeInput() that will take all the inputs given by the keyboard or the buttons, transform them into new standardized inputs, and feed them to the function handleInput that will deal with them.
+//Declare normalizeInput() that will take all the inputs given by the keyboard or the buttons, transform and merge them when necessary into new standardized inputs, and feed them to the function handleInput that will deal with them.
 
 
-//Declare handleInput(input) that will be invoked by the preceding functions described previously. Depending on the variable "state", handleInput() will treat differently the inputs.
+function normalizeInput(rawInput) {
+	const map = {
+	'*': '×',
+	'/': '÷',
+	',': '.',
+	'S': '²',
+	'M': 'MOD',
+	'V': '√',
+	'x²': '²',
+	'Enter': '=',
+	}
+	const input = map[rawInput] || rawInput;
+	console.log(input);
+	//handleInput(input)
+};
+
+
+//Declare variable "state" (that will eventually have 4 possible values: "Waiting for operand 1", 'Waiting for operand 2", "Error", "Result")
+
+let state = "Waiting for operarand 1"
+
+
+//Declare handleInput(input) that will be invoked by normalizeInput(). Depending on the variable "state", handleInput() will treat differently the inputs.
+//"Waiting for operand1"
 
 
 
