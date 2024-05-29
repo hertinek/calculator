@@ -85,6 +85,7 @@ document.addEventListener('keydown', event => {
 	if (/^[0-9*+\-/=.,×S÷M%V!²]$/.test(key) || key === 'Enter') {
 		normalizeInput(key);
 	};
+	document.activeElement.blur();
 });
 
 const buttons = document.querySelector("#controls");
@@ -97,7 +98,6 @@ buttons.addEventListener('click', event => {
 });
 
 //Declare normalizeInput() that will take all the inputs given by the keyboard or the buttons, transform and merge them when necessary into new standardized inputs, and feed them to the function handleInput that will deal with them.
-
 
 function normalizeInput(rawInput) {
 	const map = {
