@@ -41,5 +41,7 @@ Available keys on the keyboard (tested):
 	letter V (for square root)
 	!
 	
+// at some point treat "=" like "enter" or "equals"
+	
 
 The calculator starts with an empty screen

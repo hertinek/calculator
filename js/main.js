@@ -93,6 +93,16 @@ document.addEventListener('keydown', event => {
 	};
 });
 
+const buttons = document.querySelector("#controls");
+buttons.addEventListener('click', event => {
+	const input = event.target;
+	if(input.tagName === 'BUTTON') {
+		const buttonId = input.id;
+		console.log(buttonId);
+		//handleInput(buttonId);
+	}
+});
+
 
 //Declare handleInput(input) that will be invoked by the preceding functions described previously. Depending on the variable "state", handleInput() will treat differently the inputs.
 
