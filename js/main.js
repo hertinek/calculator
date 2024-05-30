@@ -124,20 +124,38 @@ let operator = "";
 let operand2 = "";
 
 /*
-//Declare handleInput(input) that will be invoked by normalizeInput(). Depending on the variable "state", handleInput() will treat differently the inputs.
+//Declare handleInput(input) that will be invoked by normalizeInput() for inputs from the keyboard, and buttons event listener. Depending on the variable "state", handleInput() will treat differently the inputs.
 
 "Waiting for operand1";
-	- receives digits as strings and add them to operand1 (which is a string too)
-	- handle the case of the decimal point (to be used just once)
+	- receives digits as strings and adds them to operand1 (which is a string too) and outputs the result on the screen, must limit number of inputs on the screen
+	- handles the case of the decimal point (to be used just once)
 	- accepts unary operators without leaving the mode:
 		- leaves the mode when receives '=' after a unary operator to 'Result' mode
-		- calculates with unary operator when receives a binary operator and goes into 'Waiting for operand2' mode
-	- 
-	- rejects all other inputs
+		- calculates with unary operator when receives a binary operator, pushes the result into 'operand1' and goes into 'Waiting for operand2' mode
+	- accepts binary operators and goes into "Waiting for operand2" mode in that case after having output in the upper part of the screen operand1 and the binary operator
+	- 'C': deletes one input/character
+	- 'AC': goes back to opening state of the calculator
+	- '=': goes into "Result" mode
 
-"Waiting for operand2"
-"Error"
-"Result"
+"Waiting for operand2";
+	- receives digits as strings and adds them to operand2 and outputs the result on the screen, must limit number of inputs on the screen
+	- handles the case of the decimal point (to be used just once)
+	- accepts unary operators without leaving the mode:
+		- leaves the mode when receives '=' after a unary operator to 'Result' mode
+	- does not accept any other binary operator (the machine is limited to two operands)
+	- 'C': deletes one input/character
+	- 'AC': goes back to opening state of the calculator
+	- '=': goes into "Result" mode	
+	
+"Error";
+	- accepts only 'AC', which brings back to opening state (blank screen, "Waiting for operand1" state)
+
+"Result";
+	- accepts unary operators: pushes the result to operand1 and adds the unary operator, and moves to "Waiting for operand1" mode, where it expects either a binary operator, or '='
+	- accepts binary operators: pushes the result to operand1 and moves to "Waiting for operand2" mode
+	- accepts 'AC', goes back to zero
+	- does not accept any other input
+
 */
 
 
