@@ -20,7 +20,7 @@ Available buttons:
 	- 4 basic binary operators (+ - × ÷) + 1 modulo operator (MOD)
 	- 4 unary operators :
 		- percentage (%)
-		- square (x²)
+		- square (²)
 		- square root (√)
 		- factorial (!)
 	- equals (=)
@@ -29,20 +29,19 @@ Available buttons:
 	
 Available keys on the keyboard (tested):
 	- 10 digits (0 to 9), both on number row and numeric keypad
-	- + - = / *
-	
-//missing keys (to be corrected):
-
-	×
-	letter x (for mult)
+	+ - = / *
+	×, or letter X as an alternative (for multiplication operator)
 	÷
-	letter M (for MOD)
-	%
-	letter V (for square root)
-	!
-	² or S (for square)
+	capital M key (for MOD)
+	% (percentage)
+	capital V key (for square root)
+	! (factorial)
+	² or capital S key (for square)
+	'Enter' keys (both keyboard and numeric pad, for '=')
+	'Backspace' key (for 'C')
+	'Escape' key (for 'AC')
 	
-// at some point treat "=" like "enter" or "equals"
+
 	
 
 The calculator starts with an empty screen
