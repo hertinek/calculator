@@ -57,6 +57,7 @@ p#lower-screen {
 	border-radius: 5px;
 	box-shadow: 5px 5px 8px;
 	flex: none;
+	cursor:pointer;
 }
 .button.digit {
 	border-radius: 15px;
