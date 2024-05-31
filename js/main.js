@@ -128,7 +128,7 @@ let operand2 = "";
 let upperScreen = document.querySelector("#upper-screen");
 upperScreen.textContent = "Ta mère en string";
 let lowerScreen = document.querySelector("#lower-screen");
-lowerScreen.textContent = "";
+lowerScreen.textContent = operand1 || "0";
 
 /*
 //Declare handleInput(input) that will be invoked by normalizeInput() for inputs from the keyboard, and buttons event listener. Depending on the variable "state", handleInput() will treat differently the inputs.
@@ -168,8 +168,8 @@ lowerScreen.textContent = "";
 function handleInput(input) {
 	if(state === "Waiting for operand1") {
 		if(/^[0-9]$/.test(input)) {
-			operand1 = input;
-			lowerScreen.textContent += operand1;
+			operand1 += input;
+			lowerScreen.textContent = operand1;
 		};
 //		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 //		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};

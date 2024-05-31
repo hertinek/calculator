@@ -50,8 +50,7 @@ The calculator starts with an empty screen
 
 Things to keep in mind (to implement later for instance, or just be mindful about):
 	- factorial should be limited with regard to inputs
-	- think about overflow in display screen
-	- change cursor to hand when hovering above buttons
+	- think about overflow in display screen. See "text-overflow: ellipsis;". Il faut deux trois trucs autour pour que ça marche (tu cherches tu trouves)
 	- create animation when clicking buttons, to be mirrored with keyboard keys
 	- create a chart with instructions and information about the calculator, to be displayed next to it
 	- leave a tiny space every three digits
