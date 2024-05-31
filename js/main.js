@@ -65,8 +65,8 @@ document.addEventListener('keydown', event => {
 	key = event.key;
 	if (/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(key) || key === 'Enter' || key === 'Backspace' || key === 'Escape') {
 		normalizeInput(key);
+		event.preventDefault();
 	};
-	document.activeElement.blur();
 });
 
 const buttons = document.querySelector("#controls");
@@ -74,8 +74,8 @@ buttons.addEventListener('click', event => {
 	const input = event.target;
 	if(input.tagName === 'BUTTON') {
 		const buttonText = input.textContent;
-		console.log(buttonText);
 		handleInput(buttonText);
+		console.log("input from buttons", buttonText);
 	}
 });
 
@@ -95,14 +95,20 @@ function normalizeInput(rawInput) {
 	'Escape': 'AC',
 	}
 	const input = map[rawInput] || rawInput;
-	console.log(input);
+	console.log("input from keyboard", input);
 	handleInput(input);
 };
 
 
 //Declare variable "state" (that will eventually have 4 possible values: "Waiting for operand1", 'Waiting for operand2", "Error", "Result")
 
-let state = "Waiting for operand1";
+const STATES = {
+	'WAITING_FOR_1': "Waiting-for-operand1",
+	'WAITING_FOR_2': "Waiting-for-operand2",
+	'ERROR': "Error",
+	'RESULT': "Result",
+};
+let state = STATES.WAITING_FOR_1;
 
 //Declare variables "operand1", "operator", and "operand2", all with empty strings as starting values
 
@@ -153,27 +159,22 @@ lowerScreen.textContent = operand1 || "0";
 */
 
 function handleInput(input) {
-	if(state === "Waiting for operand1") {
+	if(state === STATES.WAITING_FOR_1){
 		if(/^[0-9]$/.test(input)) {
 			operand1 += input;
 			lowerScreen.textContent = operand1;
 		};
-//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
-//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
-//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
-//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
-//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 	};
-	
-	if(state === "Waiting for operand2") {
+
+	if(state === STATES.WAITING_FOR_2) {
 	
 	};
 	
-	if(state === "Error") {
+	if(state === STATES.ERROR) {
 	
 	};
 	
-	if(state === "Result") {
+	if(state === STATES.RESULT) {
 	
 	};
 };
