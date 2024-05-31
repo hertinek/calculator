@@ -20,10 +20,25 @@ body {
 }
 
 #screen {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	width: 280px;
-	height: 80px;
+	height: 100px;
 	border: 2px solid darkblue;
 	border-radius: 5px;
+}
+p#upper-screen {
+	border: 1px solid red;
+	font-size: 30px;
+	margin: 0px;
+}
+p#lower-screen {
+	border: 1px solid red;
+	font-size: 40px;
+	font-weight: bold;
+	margin: 0px;
+	text-align: right;
 }
 
 #controls {
@@ -43,7 +58,6 @@ body {
 	box-shadow: 5px 5px 8px;
 	flex: none;
 }
-
 .button.digit {
 	border-radius: 15px;
 }
@@ -52,7 +66,6 @@ body {
 	display: flex;
 	flex-direction: row;
 }
-
 #left-block {
 	display:flex;
 	flex-direction: row;
@@ -60,7 +73,6 @@ body {
 	width: 180px;
 	height: 240px;
 }
-
 #right-block {
 	display: flex;
 	flex-direction: column;

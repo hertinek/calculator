@@ -88,7 +88,7 @@ buttons.addEventListener('click', event => {
 	if(input.tagName === 'BUTTON') {
 		const buttonText = input.textContent;
 		console.log(buttonText);
-		//handleInput(buttonText);
+		handleInput(buttonText);
 	}
 });
 
@@ -109,19 +109,26 @@ function normalizeInput(rawInput) {
 	}
 	const input = map[rawInput] || rawInput;
 	console.log(input);
-	//handleInput(input)
+	handleInput(input);
 };
 
 
-//Declare variable "state" (that will eventually have 4 possible values: "Waiting for operand 1", 'Waiting for operand 2", "Error", "Result")
+//Declare variable "state" (that will eventually have 4 possible values: "Waiting for operand1", 'Waiting for operand2", "Error", "Result")
 
-let state = "Waiting for operarand 1";
+let state = "Waiting for operand1";
 
 //Declare variables "operand1", "operator", and "operand2", all with empty strings as starting values
 
 let operand1 = "";
 let operator = "";
 let operand2 = "";
+
+//Declare two const for the two parts of the screen, upper-screen and lower-screen (and test them upon creation).
+
+let upperScreen = document.querySelector("#upper-screen");
+upperScreen.textContent = "Ta mère en string";
+let lowerScreen = document.querySelector("#lower-screen");
+lowerScreen.textContent = "";
 
 /*
 //Declare handleInput(input) that will be invoked by normalizeInput() for inputs from the keyboard, and buttons event listener. Depending on the variable "state", handleInput() will treat differently the inputs.
@@ -155,8 +162,34 @@ let operand2 = "";
 	- accepts binary operators: pushes the result to operand1 and moves to "Waiting for operand2" mode
 	- accepts 'AC', goes back to zero
 	- does not accept any other input
-
+	
 */
+
+function handleInput(input) {
+	if(state === "Waiting for operand1") {
+		if(/^[0-9]$/.test(input)) {
+			operand1 = input;
+			lowerScreen.textContent += operand1;
+		};
+//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
+//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
+//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
+//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
+//		if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
+	};
+	
+	if(state === "Waiting for operand2") {
+	
+	};
+	
+	if(state === "Error") {
+	
+	};
+	
+	if(state === "Result") {
+	
+	};
+};
 
 
 
