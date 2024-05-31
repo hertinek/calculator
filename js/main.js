@@ -1,33 +1,33 @@
 //Declare 4 functions for the 4 basic operations that will update and use a and b, plus the modulo operator (not basic, but binary):
 
-const add = (a, b) => a + b;
-const sub = (a, b) => a - b;
-const div = (a, b) => {
+const addition = (a, b) => a + b;
+const subtraction = (a, b) => a - b;
+const multiplication = (a, b) => a * b;
+const division = (a, b) => {
 	if(b === 0) {
-	return error }
+	return "error" }
 	return a / b;
 };
-const mult = (a, b) => a * b;
 const modulo = (a, b) => {
 	if(b === 0) {
-	return error }
+	return "error" }
 	return a % b;
 };
 
 //? Declare functions for unary operations: percentage, square, square root, factorial.
 
-const percent = a => a * 0.01;
+const percentage = a => a * 0.01;
 
 const square = a => a * a;
 
-function sqrt(a) {
+function squareRoot(a) {
 	if(a < 0) {
 	return "error"
 	}
 	return Math.sqrt(a)
 };
 
-function facto(a) {
+function factorial(a) {
 	if (a < 0) {
 		return "error";
 	}
@@ -42,34 +42,21 @@ function facto(a) {
 };
 
 
-//Declare function called "calculate" that requires three variables (operand1, operator, operand2) that will each invoke one of the functions for basic operations. This function will be invoked when "equals" value is received (keyboard with enter or button "=" pressed) under "Waiting for operand 2" state, and will receive as arguments the values stored at that moment.
+//Declare functions that requires three variable (operand1, operator, operand2) or two variables (operand, operator) that will each invoke one of the functions for basic operations. These functions will be invoked when "equals" value is received (keyboard with enter or button "=" pressed) under "Waiting for operand 2" state, and will receive as arguments the values stored at that moment.
 
 
-function calculateBinaryOp(operand1, operator, operand2) {
-	if(operator === "+") {
-		return add(operand1, operand2);
-	} else if(operator === "-") {
-		return sub(operand1, operand2);
-	} else if(operator === "×") {
-		return mult(operand1, operand2);
-	} else if(operator === "÷") {
-		return div(operand1, operand2);
-	} else if (operator === "MOD") {
-		return modulo(operand1, operand2);
-	};
+const operations = {
+	"+": (operand1, operand2) => addition(operand1, operand2),
+	"-": (operand1, operand2) => subtraction(operand1, operand2),
+	"×": (operand1, operand2) => multiplication(operand1, operand2),
+	"÷": (operand1, operand2) => division(operand1, operand2),
+	"MOD": (operand1, operand2) => modulo(operand1, operand2),
+	"%": (operand) => percentage(operand),
+	"²": (operand) => square(operand),
+	"√": (operand) => squareRoot(operand),
+	"!": (operand) => factorial(operand),
 };
 
-function calculateUnaryOp(operand1, operator) {
-	if(operator === "%") {
-		return percent(operand1);
-	} else if(operator === "²") {
-		return square(operand1);
-	} else if(operator === "√") {
-		return sqrt(operand1);
-	} else if(operator === "!") {
-		return facto(operand1);
-	};
-};
 
 
 //Listen to keyboard events AND to button events. The keyboard event function must also filter in only the necessary characters (digits and operators).

@@ -17,7 +17,7 @@ This calculator handles:
 Available buttons on the calculator:
 	- 10 digits (0 to 9)
 	- decimal point (.)
-	- 4 basic binary operators (+ - × ÷) + 1 modulo operator (MOD)
+	- 5 binary operators (+ - × ÷ and modulo operator (MOD))
 	- 4 unary operators :
 		- percentage (%)
 		- square (²)
@@ -46,7 +46,7 @@ Available keys on the keyboard (tested):
 		'Escape' key (for 'AC')
 
 
-The calculator starts with an empty screen
+
 
 Things to keep in mind (to implement later for instance, or just be mindful about):
 	- factorial should be limited with regard to inputs
