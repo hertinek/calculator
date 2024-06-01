@@ -158,12 +158,12 @@ lowerScreen.textContent = operand1 || "0";
 */
 //block to work with: if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 function handleInput(input) {
-console.log(input);
 	if(input === "AC" && state) {
 		operand1 = "";
 		operand2 = "";
 		operator = "";
 		unaryOperator = "";
+		upperScreen.textContent = "";
 		lowerScreen.textContent = "0";
 		state = STATES.WAITING_FOR_1;
 	};
@@ -201,7 +201,6 @@ console.log(input);
 			upperScreen.textContent = lowerScreen.textContent + " " + operator;
 			lowerScreen.textContent = "0";
 			state = STATES.WAITING_FOR_2;
-			console.log(state);
 		};
 // undo last action unless if last action is press binary operator > to be handled in state2
 		if(input === "C" && lowerScreen.textContent !== "0") {
@@ -218,11 +217,26 @@ console.log(input);
 				lowerScreen.textContent = "0";
 			}
 		};
-
+		if(input === "=") {
+			if(unaryOperator !== "" && operand1 !== "") {
+				if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
+					result = operations[unaryOperator](operand1);
+					if(result === "error") {
+						upperScreen.textContent = "¡De puta madre!";
+						lowerScreen.textContent = result;
+						state = STATES.ERROR;
+					} else {
+						upperScreen.textContent = lowerScreen.textContent;
+						lowerScreen.textContent = result;
+						state = STATES.RESULT;
+					}
+				};	
+			};
+		};
 	};
 
 	if(state === STATES.WAITING_FOR_2) {
-	
+
 	};
 	
 	if(state === STATES.ERROR) {
