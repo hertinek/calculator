@@ -171,13 +171,22 @@ function handleInput(input) {
 			};
 		};
 		if(/^[+\-×÷]$/.test(input) || input === "MOD") {
-			//console.log("binary operator!");
 			operator = input;
 			upperScreen.textContent = operand1 + " " + operator;
 			lowerScreen.textContent = "";
 			state = STATES.WAITING_FOR_2;
 			console.log(state);
 		};
+/*
+		if(/^[%²√!]$/.test(input)) {
+			operator = input;
+			if(operator === "√") {
+				lowerScreen.textContent = operator + operand1;
+			} else {
+				lowerScreen.textContent = operand1 + operator;
+			};
+		};
+*/		
 	};
 
 	if(state === STATES.WAITING_FOR_2) {
