@@ -160,17 +160,28 @@ lowerScreen.textContent = operand1 || "0";
 //block to work with: if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 function handleInput(input) {
 	if(state === STATES.WAITING_FOR_1){
+		if(operand1 === "" && input === "-") {
+			operand1 += input;
+			lowerScreen.textContent = operand1;
+		};
+		if(operand1 === "" && input === "√") {
+			operand1 += input;
+			lowerScreen.textContent = operand1;
+		};
 		if(/^[0-9]$/.test(input)) {
 			operand1 += input;
 			lowerScreen.textContent = operand1;
 		};
 		if(/^[.]$/.test(input)) {
-			if(!operand1.includes(".")) {
+			if(operand1 === "") {
+				operand1 = "0."
+				lowerScreen.textContent = operand1;
+			} else if (!operand1.includes(".")) {
 				operand1 += input;
 				lowerScreen.textContent = operand1;
 			};
 		};
-		if(/^[+\-×÷]$/.test(input) || input === "MOD") {
+		if(operand1 !== "-" && operand1 !== "" && (/^[+\-×÷]$/.test(input) || input === "MOD") ) {
 			operator = input;
 			upperScreen.textContent = operand1 + " " + operator;
 			lowerScreen.textContent = "";
