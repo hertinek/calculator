@@ -115,11 +115,12 @@ let state = STATES.WAITING_FOR_1;
 let operand1 = "";
 let operator = "";
 let operand2 = "";
+let unaryOperator = "";
 
 //Declare two const for the two parts of the screen, upper-screen and lower-screen (and test them upon creation).
 
 let upperScreen = document.querySelector("#upper-screen");
-upperScreen.textContent = "Ta mère en string";
+upperScreen.textContent = "";
 let lowerScreen = document.querySelector("#lower-screen");
 lowerScreen.textContent = operand1 || "0";
 
@@ -160,44 +161,50 @@ lowerScreen.textContent = operand1 || "0";
 //block to work with: if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 function handleInput(input) {
 	if(state === STATES.WAITING_FOR_1){
-		if(operand1 === "" && input === "-") {
+		//case where "-" is the unary operator, ie arrives first when screen starts 
+		if(input === "-" && operand1 === "" && unaryOperator === "") {
 			operand1 += input;
 			lowerScreen.textContent = operand1;
 		};
-		if(operand1 === "" && input === "√") {
-			operand1 += input;
-			lowerScreen.textContent = operand1;
+		if(input === "√" && operand1 === "") {
+			unaryOperator = input;
+			lowerScreen.textContent = unaryOperator;
 		};
 		if(/^[0-9]$/.test(input)) {
 			operand1 += input;
-			lowerScreen.textContent = operand1;
+			if(lowerScreen.textContent === "0") {
+				lowerScreen.textContent = operand1;
+			} else if(lowerScreen.textContent !== "0") {
+				lowerScreen.textContent += input
+			}
 		};
 		if(/^[.]$/.test(input)) {
 			if(operand1 === "") {
 				operand1 = "0."
-				lowerScreen.textContent = operand1;
-			} else if (!operand1.includes(".")) {
+			} else if(!operand1.includes(".")) {
 				operand1 += input;
-				lowerScreen.textContent = operand1;
 			};
+			if(lowerScreen.textContent.startsWith("-")) {
+				lowerScreen.textContent = operand1
+			} else if(lowerScreen.textContent.startsWith("√")) {
+				lowerScreen.textContent = unaryOperator + operand1
+			} else if(lowerScreen.textContent === "0") {
+				lowerScreen.textContent += input
+			}
 		};
-		if(operand1 !== "-" && operand1 !== "" && (/^[+\-×÷]$/.test(input) || input === "MOD") ) {
+		if(/^[%²!]$/.test(input)) {
+			if(unaryOperator === "") {
+			unaryOperator = input;
+			lowerScreen.textContent += unaryOperator;
+			};
+		};		
+		if( (/^[+\-×÷]$/.test(input) || input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
 			operator = input;
-			upperScreen.textContent = operand1 + " " + operator;
-			lowerScreen.textContent = "";
+			upperScreen.textContent = lowerScreen.textContent + " " + operator;
+			lowerScreen.textContent = "0";
 			state = STATES.WAITING_FOR_2;
 			console.log(state);
 		};
-/*
-		if(/^[%²√!]$/.test(input)) {
-			operator = input;
-			if(operator === "√") {
-				lowerScreen.textContent = operator + operand1;
-			} else {
-				lowerScreen.textContent = operand1 + operator;
-			};
-		};
-*/		
 	};
 
 	if(state === STATES.WAITING_FOR_2) {
