@@ -158,6 +158,16 @@ lowerScreen.textContent = operand1 || "0";
 */
 //block to work with: if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 function handleInput(input) {
+console.log(input);
+	if(input === "AC" && state) {
+		operand1 = "";
+		operand2 = "";
+		operator = "";
+		unaryOperator = "";
+		lowerScreen.textContent = "0";
+		state = STATES.WAITING_FOR_1;
+	};
+	
 	if(state === STATES.WAITING_FOR_1){
 		if(input === "-" && operand1 === "" && unaryOperator === "") {
 			operand1 += input;
@@ -208,6 +218,7 @@ function handleInput(input) {
 				lowerScreen.textContent = "0";
 			}
 		};
+
 	};
 
 	if(state === STATES.WAITING_FOR_2) {
