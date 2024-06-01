@@ -29,12 +29,12 @@ body {
 	border-radius: 5px;
 }
 p#upper-screen {
-	border: 1px solid red;
+	border: none;
 	font-size: 30px;
 	margin: 0px;
 }
 p#lower-screen {
-	border: 1px solid red;
+	border: none;
 	font-size: 40px;
 	font-weight: bold;
 	margin: 0px;

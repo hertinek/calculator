@@ -169,9 +169,9 @@ function handleInput(input) {
 	};
 	
 	if(state === STATES.WAITING_FOR_1){
-		if(input === "-" && operand1 === "" && unaryOperator === "") {
+		if(input === "-" && operand1 === "" && (unaryOperator === "" || unaryOperator === "√") ) {
 			operand1 += input;
-			lowerScreen.textContent = operand1;
+			lowerScreen.textContent = unaryOperator + operand1;
 		};
 		if(input === "√" && operand1 === "") {
 			unaryOperator = input;
@@ -179,7 +179,7 @@ function handleInput(input) {
 		};
 		if(/^[0-9]$/.test(input) && operand1 !== "0") {
 			operand1 += input;
-			lowerScreen.textContent = operand1;
+			lowerScreen.textContent = unaryOperator + operand1;
 		};
 		if(/^[.]$/.test(input)) {
 			if(operand1 === "") {
@@ -222,8 +222,8 @@ function handleInput(input) {
 				if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
 					result = operations[unaryOperator](operand1);
 					if(result === "error") {
-						upperScreen.textContent = "¡De puta madre!";
-						lowerScreen.textContent = result;
+						upperScreen.textContent = "To exit: press AC";
+						lowerScreen.textContent = "ERROR";
 						state = STATES.ERROR;
 					} else {
 						upperScreen.textContent = lowerScreen.textContent;
