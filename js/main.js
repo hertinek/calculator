@@ -161,7 +161,6 @@ lowerScreen.textContent = operand1 || "0";
 //block to work with: if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 function handleInput(input) {
 	if(state === STATES.WAITING_FOR_1){
-		//case where "-" is the unary operator, ie arrives first when screen starts 
 		if(input === "-" && operand1 === "" && unaryOperator === "") {
 			operand1 += input;
 			lowerScreen.textContent = operand1;
@@ -180,17 +179,14 @@ function handleInput(input) {
 		};
 		if(/^[.]$/.test(input)) {
 			if(operand1 === "") {
-				operand1 = "0."
-			} else if(!operand1.includes(".")) {
+				operand1 = "0.";
+				lowerScreen.textContent = operand1;
+				console.log(operand1);
+			} else if(!operand1.includes(".") && operand1 !== "-") {
 				operand1 += input;
+				lowerScreen.textContent = unaryOperator + operand1;
+				console.log(operand1);
 			};
-			if(lowerScreen.textContent.startsWith("-")) {
-				lowerScreen.textContent = operand1
-			} else if(lowerScreen.textContent.startsWith("√")) {
-				lowerScreen.textContent = unaryOperator + operand1
-			} else if(lowerScreen.textContent === "0") {
-				lowerScreen.textContent += input
-			}
 		};
 		if(/^[%²!]$/.test(input)) {
 			if(unaryOperator === "") {
@@ -205,6 +201,19 @@ function handleInput(input) {
 			state = STATES.WAITING_FOR_2;
 			console.log(state);
 		};
+		/*
+		if(input === "C" && lowerScreen.textInput !== "0") {
+			if(lowerScreen.textContent.endsWith(unaryOperator)) {
+				unaryOperator = "";
+				lowerScreen.textContent = operand1;
+			} else if(!lowerScreen.textContent.endsWith(unaryOperator)) {
+				console.log("C is pressed and screen doesn't end with a unaryOperator");
+				truncatedOperand = operand1.substring(0, oldString.length - 1);
+				operand1 = truncatedOperand;
+				lowerScreen.textContent = unaryOperator + operand1;
+			}
+		};
+		*/
 	};
 
 	if(state === STATES.WAITING_FOR_2) {
