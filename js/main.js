@@ -63,7 +63,7 @@ const operations = {
 
 document.addEventListener('keydown', event => {
 	key = event.key;
-	if (/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(key) || key === 'Enter' || key === 'Backspace' || key === 'Escape') {
+	if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(key) || key === 'Enter' || key === 'Backspace' || key === 'Escape') {
 		normalizeInput(key);
 		event.preventDefault();
 	};
@@ -75,7 +75,7 @@ buttons.addEventListener('click', event => {
 	if(input.tagName === 'BUTTON') {
 		const buttonText = input.textContent;
 		handleInput(buttonText);
-		console.log("input from buttons", buttonText);
+		//console.log("input from buttons", buttonText);
 	}
 });
 
@@ -95,7 +95,7 @@ function normalizeInput(rawInput) {
 	'Escape': 'AC',
 	}
 	const input = map[rawInput] || rawInput;
-	console.log("input from keyboard", input);
+	//console.log("input from keyboard", input);
 	handleInput(input);
 };
 
@@ -157,12 +157,26 @@ lowerScreen.textContent = operand1 || "0";
 	- does not accept any other input
 	
 */
-
+//block to work with: if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
 function handleInput(input) {
 	if(state === STATES.WAITING_FOR_1){
 		if(/^[0-9]$/.test(input)) {
 			operand1 += input;
 			lowerScreen.textContent = operand1;
+		};
+		if(/^[.]$/.test(input)) {
+			if(!operand1.includes(".")) {
+				operand1 += input;
+				lowerScreen.textContent = operand1;
+			};
+		};
+		if(/^[+\-×÷]$/.test(input) || input === "MOD") {
+			//console.log("binary operator!");
+			operator = input;
+			upperScreen.textContent = operand1 + " " + operator;
+			lowerScreen.textContent = "";
+			state = STATES.WAITING_FOR_2;
+			console.log(state);
 		};
 	};
 

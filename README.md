@@ -14,7 +14,7 @@ This calculator handles:
 		- square root
 		- factorial
 		
-Available buttons on the calculator:
+Available buttons on the calculator (that represent the 23 possible inputs received by the calculator):
 	- 10 digits (0 to 9)
 	- decimal point (.)
 	- 5 binary operators (+ - × ÷ and modulo operator (MOD))
@@ -27,8 +27,9 @@ Available buttons on the calculator:
 	- All Clear (AC)
 	- Clear (C)
 	
-Available keys on the keyboard (tested):
+Available keys on the keyboard (tested) (some give the exact same inputs as the buttons, and some are 'normalized' by a function into one of inputs corresponding to a button):
 	- 10 digits (0 to 9), both on number row and numeric keypad
+	- point and comma (. ,)
 	- binary operators:
 		+ - / *
 		×, or letter X as an alternative
@@ -44,6 +45,7 @@ Available keys on the keyboard (tested):
 		'Enter' keys (both keyboard and numeric pad, for '=')
 		'Backspace' key (for 'C')
 		'Escape' key (for 'AC')
+	Note that the total number of actual keys that it represents cannot be asserted because of the different physical keyboards that users can have (mainly with or without a number keypad) but also the mapping that is used by their operating system.
 
 
 
