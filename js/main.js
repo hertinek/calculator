@@ -75,7 +75,6 @@ buttons.addEventListener('click', event => {
 	if(input.tagName === 'BUTTON') {
 		const buttonText = input.textContent;
 		handleInput(buttonText);
-		//console.log("input from buttons", buttonText);
 	}
 });
 
@@ -95,7 +94,6 @@ function normalizeInput(rawInput) {
 	'Escape': 'AC',
 	}
 	const input = map[rawInput] || rawInput;
-	//console.log("input from keyboard", input);
 	handleInput(input);
 };
 
@@ -169,23 +167,17 @@ function handleInput(input) {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
 		};
-		if(/^[0-9]$/.test(input)) {
+		if(/^[0-9]$/.test(input) && operand1 !== "0") {
 			operand1 += input;
-			if(lowerScreen.textContent === "0") {
-				lowerScreen.textContent = operand1;
-			} else if(lowerScreen.textContent !== "0") {
-				lowerScreen.textContent += input
-			}
+			lowerScreen.textContent = operand1;
 		};
 		if(/^[.]$/.test(input)) {
 			if(operand1 === "") {
 				operand1 = "0.";
 				lowerScreen.textContent = operand1;
-				console.log(operand1);
 			} else if(!operand1.includes(".") && operand1 !== "-") {
 				operand1 += input;
 				lowerScreen.textContent = unaryOperator + operand1;
-				console.log(operand1);
 			};
 		};
 		if(/^[%²!]$/.test(input)) {
@@ -201,19 +193,21 @@ function handleInput(input) {
 			state = STATES.WAITING_FOR_2;
 			console.log(state);
 		};
-		/*
-		if(input === "C" && lowerScreen.textInput !== "0") {
-			if(lowerScreen.textContent.endsWith(unaryOperator)) {
+// undo last action unless if last action is press binary operator > to be handled in state2
+		if(input === "C" && lowerScreen.textContent !== "0") {
+			if(/[²%!]$/.test(lowerScreen.textContent)) {
 				unaryOperator = "";
-				lowerScreen.textContent = operand1;
-			} else if(!lowerScreen.textContent.endsWith(unaryOperator)) {
-				console.log("C is pressed and screen doesn't end with a unaryOperator");
-				truncatedOperand = operand1.substring(0, oldString.length - 1);
-				operand1 = truncatedOperand;
-				lowerScreen.textContent = unaryOperator + operand1;
+				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+			} else if(lowerScreen.textContent.length > 1
+				&& /[0-9.]$/.test(lowerScreen.textContent)) {
+				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+				operand1 = operand1.slice(0, -1);
+			} else if(/^[\-√0-9]$/.test(lowerScreen.textContent)) {
+				unaryOperator = "";
+				operand1 = "";
+				lowerScreen.textContent = "0";
 			}
 		};
-		*/
 	};
 
 	if(state === STATES.WAITING_FOR_2) {
