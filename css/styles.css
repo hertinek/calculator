@@ -44,6 +44,9 @@ p#lower-screen {
 	margin: 0px 5px;
 	text-align: right;
 }
+.initial-zero {
+    color: grey;
+}
 
 #controls {
 	display: flex;

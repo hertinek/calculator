@@ -120,12 +120,24 @@ let binaryOperator = "";
 let operand2 = "";
 let unaryOperator = "";
 
-//Declare two const for the two parts of the screen, upper-screen and lower-screen (and test them upon creation).
+//Declare two const for the two parts of the screen, upper-screen and lower-screen.
+
 
 let upperScreen = document.querySelector("#upper-screen");
 upperScreen.textContent = "";
 let lowerScreen = document.querySelector("#lower-screen");
-lowerScreen.textContent = operand1 || "0";
+lowerScreen.textContent = "0";
+
+// Create function checkInitialZero that checks if the zero displayed by the lower screen corresponds to a zero actually stored in the operand variable. If not (as is the case when calculator is initialized, or enter state "Waiting for operand2), displays the zero in gray.
+function checkInitialZero() {
+	if( (lowerScreen.textContent === "0" && operand1 === "")
+		|| (lowerScreen.textContent === "0" && upperScreen.textContent !== "" && operand2 === "") ) {
+		lowerScreen.classList.add("initial-zero");
+	} else {
+		lowerScreen.classList.remove("initial-zero");
+	};
+};
+checkInitialZero();
 
 /*
 //Declare handleInput(input) that will be invoked by normalizeInput() for inputs from the keyboard, and buttons event listener. Depending on the variable "state", handleInput() will treat differently the inputs.
@@ -171,8 +183,7 @@ function handleInput(input) {
 		upperScreen.textContent = "";
 		lowerScreen.textContent = "0";
 		state = STATES.WAITING_FOR_1;
-	};
-	
+	};	
 	if(state === STATES.WAITING_FOR_1){
 		if(input === "-" && operand1 === "" && (unaryOperator === "" || unaryOperator === "√") ) {
 			operand1 += input;
@@ -195,7 +206,7 @@ function handleInput(input) {
 				lowerScreen.textContent = unaryOperator + operand1;
 			};
 		};
-		if(/^[%²!]$/.test(input)) {
+		if(/^[%²!]$/.test(input)) { //BUG! possibly ouputs zero + unary op on screen but the real operand is still empty
 			if(unaryOperator === "") {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
@@ -276,12 +287,7 @@ function handleInput(input) {
 				lowerScreen.textContent = unaryOperator + operand2; //same, keep unaryOperator if it exists, if it's empty it won't show on the screen
 			};
 		};
-		if(/^[%²!]$/.test(input)) {
-			if(unaryOperator === "") {
-			unaryOperator = input;
-			lowerScreen.textContent += unaryOperator;
-			};
-		};
+
 	};
 	
 	if(state === STATES.ERROR) {
@@ -291,6 +297,7 @@ function handleInput(input) {
 	if(state === STATES.RESULT) {
 	
 	};
+	checkInitialZero();
 };
 
 
