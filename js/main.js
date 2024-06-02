@@ -201,11 +201,26 @@ function handleInput(input) {
 			lowerScreen.textContent += unaryOperator;
 			};
 		};		
+//that part must consider calculate the result of op1 and unaryOperator if there is one before outputting it to upperScreen
 		if( (/^[+\-×÷]$/.test(input) || input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
-			upperScreen.textContent = lowerScreen.textContent + " " + binaryOperator;
-			lowerScreen.textContent = "0";
-			state = STATES.WAITING_FOR_2;
+			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
+				result = operations[unaryOperator](operand1);
+				if(result === "error") {
+						upperScreen.textContent = "To exit: press AC";
+						lowerScreen.textContent = "ERROR";
+						state = STATES.ERROR;
+					} else {
+						upperScreen.textContent = result + " " + binaryOperator;
+						lowerScreen.textContent = "0";
+						state = STATES.WAITING_FOR_2;
+						unaryOperator = ""; //in case it should be used later
+					}
+			} else {
+				upperScreen.textContent = operand1 + " " + binaryOperator;
+				lowerScreen.textContent = "0";
+				state = STATES.WAITING_FOR_2;
+			}
 		};
 // undo last action unless if last action is press binary operator > to be handled in state2
 		if(input === "C" && lowerScreen.textContent !== "0") {

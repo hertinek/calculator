@@ -29,7 +29,7 @@ Available buttons on the calculator (that represent the 23 possible inputs recei
 
 
 	
-Available keys on the keyboard (tested) (some give the exact same inputs as the buttons, and some are 'normalized' by a function into one of inputs corresponding to a button):
+Available keys on the keyboard (tested) (some give the exact same inputs as the buttons, and some are 'normalized' by a function into one of the inputs corresponding to a button):
 	- 10 digits (0 to 9), both on number row and numeric keypad
 	- point and comma (. ,)
 	- binary operators:
