@@ -48,6 +48,10 @@ Available keys on the keyboard (tested) (some give the exact same inputs as the 
 		'Backspace' key (for 'C')
 		'Escape' key (for 'AC')
 	Note that the total number of actual keys that it represents cannot be asserted because of the different physical keyboards that users can have (mainly with or without a number keypad) but also the mapping that is used by their operating system.
+	
+	
+	BUGS:
+	- the unfocus/blur when keyboard is pressed works only with keys that are accepted in the code as counterparts to button
 
 
 

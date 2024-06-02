@@ -207,7 +207,7 @@ function handleInput(input) {
 			};
 		};
 		if(/^[%²!]$/.test(input)) {
-			if(unaryOperator === "" && operand1 !== "") {
+			if(unaryOperator === "" && operand1 !== "" && operand1 !== "-") {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
 			};
@@ -235,7 +235,7 @@ function handleInput(input) {
 			}
 		};
 // undo last action unless if last action is press binary operator > to be handled in state2
-		if(input === "C") {//BUG!!!
+		if(input === "C") {
 			if(/[²%!]$/.test(unaryOperator)) {
 				unaryOperator = "";
 				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
@@ -293,26 +293,33 @@ function handleInput(input) {
 			};
 		};
 		if(/^[%²!]$/.test(input)) {
-			if(unaryOperator === "" && operand2 !== "") {
+			if(unaryOperator === "" && operand2 !== "" && operand2 !== "-") {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
 			};
 		};
 // note that binary operators (including mod) are not active in this state
-// undo last action unless if last action is press binary operator > to be handled in state2 -- don't forget!
-		if(input === "C" && lowerScreen.textContent !== "0") {// BUG!
-			if(/[²%!]$/.test(lowerScreen.textContent)) {
+// undo last action unless if last action is press binary operator > to be handled in state2 -- don't forget! Do it here:
+		if(input === "C") {
+			if(binaryOperator !== "" && operand2 === "" && unaryOperator === "") {
+				binaryOperator = "";
+				upperScreen.textContent = "";
+				lowerScreen.textContent = operand1;
+				state = STATES.WAITING_FOR_1;
+			} else if(/[²%!]$/.test(unaryOperator)) {
 				unaryOperator = "";
 				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
-			} else if(lowerScreen.textContent.length > 1
-				&& /[0-9.]$/.test(lowerScreen.textContent)) {
+			} else if(operand2.length > 1
+				&& /[0-9.]$/.test(operand2)) {
 				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
-				operand1 = operand1.slice(0, -1);
-			} else if(/^[\-√0-9]$/.test(lowerScreen.textContent)) {
+				operand2 = operand2.slice(0, -1);
+			} else if(/^[0-9\-]$/.test(operand2)
+				|| (unaryOperator === "√" && operand2 === "") ) {
 				unaryOperator = "";
-				operand1 = "";
+				operand2 = "";
 				lowerScreen.textContent = "0";
 			}
+		console.log(operand2);
 		};
 	};
 	
@@ -324,6 +331,7 @@ function handleInput(input) {
 	
 	};
 	checkInitialZero();
+	console.log("operand1: "+ operand1 + ", operand2: " + operand2)
 };
 
 
