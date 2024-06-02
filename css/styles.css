@@ -7,6 +7,8 @@ body {
     justify-content: center;
     align-items: center;
 	height: 100vh;
+	background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
 }
 
 .calculator {
@@ -31,13 +33,13 @@ body {
 p#upper-screen {
 	border: none;
 	font-size: 30px;
-	margin: 0px;
+	margin: 0px 5px;
 }
 p#lower-screen {
 	border: none;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 0px;
+	margin: 0px 5px;
 	text-align: right;
 }
 
