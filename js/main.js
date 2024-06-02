@@ -216,7 +216,7 @@ function handleInput(input) {
 		if( (/^[+\-×÷]$/.test(input) || input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
 			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
-				result = operations[unaryOperator](operand1);
+				result = operations[unaryOperator](+operand1);
 				if(result === "error") {
 						upperScreen.textContent = "To exit: press AC";
 						lowerScreen.textContent = "ERROR";
@@ -251,11 +251,14 @@ function handleInput(input) {
 			}
 		};
 		if(input === "=" && operand1 !== "") {
-			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
-				result = operations[unaryOperator](operand1);
+			if(unaryOperator === "%"
+			|| unaryOperator === "²"
+			|| unaryOperator === "√"
+			|| unaryOperator === "!") {
+				result = operations[unaryOperator](+operand1);
 				if(result === "error") {
-					upperScreen.textContent = "To exit: press AC";
-					lowerScreen.textContent = "ERROR";
+					upperScreen.textContent = "Invalid operation";
+					lowerScreen.textContent = "ERROR: press AC to exit";
 					state = STATES.ERROR;
 				} else {
 					upperScreen.textContent = lowerScreen.textContent;
@@ -319,7 +322,30 @@ function handleInput(input) {
 				operand2 = "";
 				lowerScreen.textContent = "0";
 			}
-		console.log(operand2);
+		};
+		if(input === "=" && operand2 !== "") {
+			if(unaryOperator === "%"
+			|| unaryOperator === "²"
+			|| unaryOperator === "√"
+			|| unaryOperator === "!") {
+				result = operations[unaryOperator](+operand2);
+				if(result === "error") {
+					upperScreen.textContent = "Invalid operation";
+					lowerScreen.textContent = "ERROR: press AC to exit";
+					state = STATES.ERROR;
+				} else {
+					operand2 = result;
+					upperScreen.textContent = operand1 + " " + binaryOperator + " " + operand2;
+					finalResult = operations[binaryOperator](+operand1, +operand2);
+					lowerScreen.textContent = finalResult;
+					state = STATES.RESULT;
+				}
+			} else {
+				finalResult = operations[binaryOperator](+operand1, +operand2);
+				upperScreen.textContent = +operand1 + " " + binaryOperator + " " + +operand2;
+				lowerScreen.textContent = finalResult;
+				state = STATES.RESULT;
+			}
 		};
 	};
 	
