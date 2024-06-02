@@ -211,7 +211,8 @@ function handleInput(input) {
 						lowerScreen.textContent = "ERROR";
 						state = STATES.ERROR;
 					} else {
-						upperScreen.textContent = result + " " + binaryOperator;
+						operand1 = result;
+						upperScreen.textContent = operand1 + " " + binaryOperator;
 						lowerScreen.textContent = "0";
 						state = STATES.WAITING_FOR_2;
 						unaryOperator = ""; //in case it should be used later
@@ -237,25 +238,24 @@ function handleInput(input) {
 				lowerScreen.textContent = "0";
 			}
 		};
-		if(input === "=") {
-			if(unaryOperator !== "" && operand1 !== "") {
-				if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
-					result = operations[unaryOperator](operand1);
-					if(result === "error") {
-						upperScreen.textContent = "To exit: press AC";
-						lowerScreen.textContent = "ERROR";
-						state = STATES.ERROR;
-					} else {
-						upperScreen.textContent = lowerScreen.textContent;
-						lowerScreen.textContent = result;
-						state = STATES.RESULT;
-					}
-				};	
-			};
+		if(input === "=" && operand1 !== "") {
+			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
+				result = operations[unaryOperator](operand1);
+				if(result === "error") {
+					upperScreen.textContent = "To exit: press AC";
+					lowerScreen.textContent = "ERROR";
+					state = STATES.ERROR;
+				} else {
+					upperScreen.textContent = lowerScreen.textContent;
+					lowerScreen.textContent = result;
+					state = STATES.RESULT;
+				}
+			};	
+			
 		};
 	};
 // The state "Waiting for operand2" is characterized by:
-//	-the upper screen outputs either [operand1 + binaryOperator] or [operand1 with unaryOperator + binaryOperator]
+//	-the upper screen outputs either [operand1 + binaryOperator] or [result  of operand1 with unaryOperator + binaryOperator]
 // - it starts with Operand2 as empty string
 	if(state === STATES.WAITING_FOR_2) {
 		
