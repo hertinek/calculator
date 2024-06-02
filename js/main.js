@@ -212,7 +212,7 @@ function handleInput(input) {
 			lowerScreen.textContent += unaryOperator;
 			};
 		};		
-//that part must consider calculate the result of op1 and unaryOperator if there is one before outputting it to upperScreen
+//that part must calculate the result of [operand1 and unaryOperator if there is one] before outputting it to upperScreen
 		if( (/^[+\-×÷]$/.test(input) || input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
 			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
@@ -235,15 +235,16 @@ function handleInput(input) {
 			}
 		};
 // undo last action unless if last action is press binary operator > to be handled in state2
-		if(input === "C" && lowerScreen.textContent !== "0") {
-			if(/[²%!]$/.test(lowerScreen.textContent)) {
+		if(input === "C") {//BUG!!!
+			if(/[²%!]$/.test(unaryOperator)) {
 				unaryOperator = "";
 				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
-			} else if(lowerScreen.textContent.length > 1
-				&& /[0-9.]$/.test(lowerScreen.textContent)) {
+			} else if(operand1.length > 1
+				&& /[0-9.]$/.test(operand1)) {
 				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
 				operand1 = operand1.slice(0, -1);
-			} else if(/^[\-√0-9]$/.test(lowerScreen.textContent)) {
+			} else if(/^[0-9\-]$/.test(operand1)
+				|| (unaryOperator === "√" && operand1 === "") ) {
 				unaryOperator = "";
 				operand1 = "";
 				lowerScreen.textContent = "0";
@@ -296,7 +297,23 @@ function handleInput(input) {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
 			};
-		};	
+		};
+// note that binary operators (including mod) are not active in this state
+// undo last action unless if last action is press binary operator > to be handled in state2 -- don't forget!
+		if(input === "C" && lowerScreen.textContent !== "0") {// BUG!
+			if(/[²%!]$/.test(lowerScreen.textContent)) {
+				unaryOperator = "";
+				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+			} else if(lowerScreen.textContent.length > 1
+				&& /[0-9.]$/.test(lowerScreen.textContent)) {
+				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+				operand1 = operand1.slice(0, -1);
+			} else if(/^[\-√0-9]$/.test(lowerScreen.textContent)) {
+				unaryOperator = "";
+				operand1 = "";
+				lowerScreen.textContent = "0";
+			}
+		};
 	};
 	
 	if(state === STATES.ERROR) {
