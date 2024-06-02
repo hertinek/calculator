@@ -161,7 +161,7 @@ lowerScreen.textContent = operand1 || "0";
 	- does not accept any other input
 	
 */
-//block to work with: if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(input)) {};
+
 function handleInput(input) {
 	if(input === "AC" && state) {
 		operand1 = "";
@@ -176,7 +176,7 @@ function handleInput(input) {
 	if(state === STATES.WAITING_FOR_1){
 		if(input === "-" && operand1 === "" && (unaryOperator === "" || unaryOperator === "√") ) {
 			operand1 += input;
-			lowerScreen.textContent = unaryOperator + operand1;
+			lowerScreen.textContent = unaryOperator + operand1;//unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand1 will consist solely of the negative sign
 		};
 		if(input === "√" && operand1 === "") {
 			unaryOperator = input;
@@ -255,10 +255,33 @@ function handleInput(input) {
 		};
 	};
 // The state "Waiting for operand2" is characterized by:
-//	-the upper screen outputs either [operand1 + binaryOperator] or [result  of operand1 with unaryOperator + binaryOperator]
-// - it starts with Operand2 as empty string
+//	- operand1 is not empty and is outputted on upperScreen alongside binaryOperator
+//	- unaryOperator is empty and ready to use regardless of whether it was used previously
+//	- starts with Operand2 as empty string
 	if(state === STATES.WAITING_FOR_2) {
-		
+		if(input === "-" && operand2 === "" && (unaryOperator === "" || unaryOperator === "√") ) {
+			operand2 += input;
+			lowerScreen.textContent = unaryOperator + operand2; //unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand2 will consist solely of the negative sign
+		};
+		if(input === "√" && operand2 === "") {
+			unaryOperator = input;
+			lowerScreen.textContent = unaryOperator;
+		};
+		if(/^[.]$/.test(input)) {
+			if(operand2 === "") {
+				operand2 = "0.";
+				lowerScreen.textContent = operand2;
+			} else if(!operand2.includes(".") && operand2 !== "-") {
+				operand2 += input;
+				lowerScreen.textContent = unaryOperator + operand2; //same, keep unaryOperator if it exists, if it's empty it won't show on the screen
+			};
+		};
+		if(/^[%²!]$/.test(input)) {
+			if(unaryOperator === "") {
+			unaryOperator = input;
+			lowerScreen.textContent += unaryOperator;
+			};
+		};
 	};
 	
 	if(state === STATES.ERROR) {
