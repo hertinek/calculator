@@ -113,10 +113,10 @@ const STATES = {
 };
 let state = STATES.WAITING_FOR_1;
 
-//Declare variables "operand1", "operator", and "operand2", all with empty strings as starting values
+//Declare variables "operand1", "binaryOperator", "operand2", and "unaryOperator" all with empty strings as starting values
 
 let operand1 = "";
-let operator = "";
+let binaryOperator = "";
 let operand2 = "";
 let unaryOperator = "";
 
@@ -166,7 +166,7 @@ function handleInput(input) {
 	if(input === "AC" && state) {
 		operand1 = "";
 		operand2 = "";
-		operator = "";
+		binaryOperator = "";
 		unaryOperator = "";
 		upperScreen.textContent = "";
 		lowerScreen.textContent = "0";
@@ -202,8 +202,8 @@ function handleInput(input) {
 			};
 		};		
 		if( (/^[+\-×÷]$/.test(input) || input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
-			operator = input;
-			upperScreen.textContent = lowerScreen.textContent + " " + operator;
+			binaryOperator = input;
+			upperScreen.textContent = lowerScreen.textContent + " " + binaryOperator;
 			lowerScreen.textContent = "0";
 			state = STATES.WAITING_FOR_2;
 		};
@@ -239,9 +239,11 @@ function handleInput(input) {
 			};
 		};
 	};
-
+// The state "Waiting for operand2" is characterized by:
+//	-the upper screen outputs either [operand1 + binaryOperator] or [operand1 with unaryOperator + binaryOperator]
+// - it starts with Operand2 as empty string
 	if(state === STATES.WAITING_FOR_2) {
-
+		
 	};
 	
 	if(state === STATES.ERROR) {
