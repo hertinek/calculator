@@ -174,8 +174,15 @@ checkInitialZero();
 	
 */
 
+let challengeActive = true;
+const originalUpperFontSize = window.getComputedStyle(upperScreen).fontSize;
+const originalLowerFontSize = window.getComputedStyle(lowerScreen).fontSize;
+
 function handleInput(input) {
-	if(input === "AC" && state) {
+	if(input === "AC"
+	&& (state === STATES.WAITING_FOR_1
+	|| state === STATES.WAITING_FOR_2
+	|| state === STATES.RESULT) ) {
 		operand1 = "";
 		operand2 = "";
 		binaryOperator = "";
@@ -213,7 +220,7 @@ function handleInput(input) {
 			};
 		};		
 //that part must calculate the result of [operand1 and unaryOperator if there is one] before outputting it to upperScreen
-		if( (/^[+\-×÷]$/.test(input) || input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
+		if( (/^[+\-×÷]$/.test(input)|| input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
 			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
 				result = operations[unaryOperator](+operand1);
@@ -258,7 +265,7 @@ function handleInput(input) {
 				result = operations[unaryOperator](+operand1);
 				if(result === "error") {
 					upperScreen.textContent = "Invalid operation";
-					lowerScreen.textContent = "ERROR: press AC to exit";
+					lowerScreen.textContent = "Press AC to exit";
 					state = STATES.ERROR;
 				} else {
 					upperScreen.textContent = lowerScreen.textContent;
@@ -331,7 +338,7 @@ function handleInput(input) {
 				result = operations[unaryOperator](+operand2);
 				if(result === "error") {
 					upperScreen.textContent = "Invalid operation";
-					lowerScreen.textContent = "ERROR: press AC to exit";
+					lowerScreen.textContent = "Press AC to exit";
 					state = STATES.ERROR;
 				} else {
 					operand2 = result;
@@ -348,16 +355,42 @@ function handleInput(input) {
 			}
 		};
 	};
-	
-	if(state === STATES.ERROR) {
-	
+
+
+	if (state === STATES.ERROR) {
+		if (input === "AC") {
+			if (challengeActive) {
+				upperScreen.textContent = "You really thought that would be so easy? To get out of the error swamp, give me the first 8 decimals of pi!";
+				lowerScreen.textContent = "3.";
+				upperScreen.style.fontSize = "18px";
+				lowerScreen.style.fontSize = "20px";
+			} else {
+				upperScreen.style.fontSize = originalUpperFontSize;
+				lowerScreen.style.fontSize = originalLowerFontSize;
+				operand1 = "";
+				operand2 = "";
+				binaryOperator = "";
+				unaryOperator = "";
+				upperScreen.textContent = "";
+				lowerScreen.textContent = "0";
+				state = STATES.WAITING_FOR_1;
+			}
+		} else if (challengeActive && /^[0-9]$/.test(input)) {
+			lowerScreen.textContent += input; // Append number to lower screen
+			if (lowerScreen.textContent === "3.14159265") {
+				upperScreen.textContent = "Good. But don't get yourself in trouble again!";
+				challengeActive = false; // Deactivate the challenge
+			} else if (lowerScreen.textContent.length > 10) {
+				upperScreen.textContent = "Incorrect! Try again.";
+				lowerScreen.textContent = "3."; // Reset lower screen
+			}
+		}
 	};
-	
+
 	if(state === STATES.RESULT) {
 	
 	};
 	checkInitialZero();
-	console.log("operand1: "+ operand1 + ", operand2: " + operand2)
 };
 
 
