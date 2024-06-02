@@ -8,17 +8,18 @@ body {
     align-items: center;
 	height: 100vh;
 	background: rgb(238,174,202);
-background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+	background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
 }
 
 .calculator {
 	display: flex;
 	flex-direction: column;
-	border: solid black 3px;
+	border: outset darkgray 12px;
 	width : 330px;
 	height: 500px;
 	justify-content: space-around;
 	align-items: center;
+	background-color: rgba(255,255,255,0.4);
 }
 
 #screen {
@@ -27,8 +28,9 @@ background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 
 	justify-content: space-between;
 	width: 280px;
 	height: 100px;
-	border: 2px solid darkblue;
+	border: 10px outset darkgray;
 	border-radius: 5px;
+	background-color: rgba(255,255,255,0.7);
 }
 p#upper-screen {
 	border: none;
@@ -53,8 +55,8 @@ p#lower-screen {
 
 .button {
 	font-size: 20px;
-	width: 60px;
-	height: 60px;
+	width: 59px;
+	height: 59px;
 	border: 2px solid darkblue;
 	border-radius: 5px;
 	box-shadow: 5px 5px 8px;
@@ -62,12 +64,16 @@ p#lower-screen {
 	cursor:pointer;
 }
 .button.digit {
-	border-radius: 15px;
+	border-radius: 20px;
 }
 
 #upper-line {
 	display: flex;
 	flex-direction: row;
+	width: 300px;
+	height: 60px;
+	justify-content: space-around;
+	align-content: space-around;
 }
 #left-block {
 	display:flex;
@@ -75,6 +81,8 @@ p#lower-screen {
 	flex-wrap: wrap-reverse;
 	width: 180px;
 	height: 240px;
+	justify-content: space-around;
+	align-content: space-around;
 }
 #right-block {
 	display: flex;
@@ -82,6 +90,8 @@ p#lower-screen {
 	flex-wrap: wrap;
 	width: 120px;
 	height: 240px;
+	justify-content: space-around;
+	align-content: space-around;
 }
 
 
@@ -97,8 +107,8 @@ p#lower-screen {
 }
 
 #btn-equals {
-	height: 120px;
+	height: 118px;
 }
 #btn-all-clear {
-	width: 120px;
+	width: 118px;
 }
