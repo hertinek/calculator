@@ -206,7 +206,7 @@ function handleInput(input) {
 				lowerScreen.textContent = unaryOperator + operand1;
 			};
 		};
-		if(/^[%²!]$/.test(input)) { //BUG! possibly ouputs zero + unary op on screen but the real operand is still empty
+		if(/^[%²!]$/.test(input)) {
 			if(unaryOperator === "" && operand1 !== "") {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
@@ -278,6 +278,10 @@ function handleInput(input) {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
 		};
+		if(/^[0-9]$/.test(input) && operand2 !== "0") {
+			operand2 += input;
+			lowerScreen.textContent = unaryOperator + operand2;
+		};
 		if(/^[.]$/.test(input)) {
 			if(operand2 === "") {
 				operand2 = "0.";
@@ -287,7 +291,12 @@ function handleInput(input) {
 				lowerScreen.textContent = unaryOperator + operand2; //same, keep unaryOperator if it exists, if it's empty it won't show on the screen
 			};
 		};
-
+		if(/^[%²!]$/.test(input)) {
+			if(unaryOperator === "" && operand2 !== "") {
+			unaryOperator = input;
+			lowerScreen.textContent += unaryOperator;
+			};
+		};	
 	};
 	
 	if(state === STATES.ERROR) {
