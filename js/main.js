@@ -131,7 +131,7 @@ lowerScreen.textContent = "0";
 // Create function checkInitialZero that checks if the zero displayed by the lower screen corresponds to a zero actually stored in the operand variable. If not (as is the case when calculator is initialized, or enter state "Waiting for operand2), displays the zero in gray.
 function checkInitialZero() {
 	if( (lowerScreen.textContent === "0" && operand1 === "")
-		|| (lowerScreen.textContent === "0" && upperScreen.textContent !== "" && operand2 === "") ) {
+		|| (lowerScreen.textContent === "0" && upperScreen.textContent !== "" && operand2 === "" && state !== STATES.RESULT) ) {
 		lowerScreen.classList.add("initial-zero");
 	} else {
 		lowerScreen.classList.remove("initial-zero");
@@ -207,7 +207,7 @@ function handleInput(input) {
 			};
 		};
 		if(/^[%²!]$/.test(input)) { //BUG! possibly ouputs zero + unary op on screen but the real operand is still empty
-			if(unaryOperator === "") {
+			if(unaryOperator === "" && operand1 !== "") {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
 			};
