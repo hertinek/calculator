@@ -131,7 +131,7 @@ lowerScreen.textContent = "0";
 // Create function checkInitialZero that checks if the zero displayed by the lower screen corresponds to a zero actually stored in the operand variable. If not (as is the case when calculator is initialized, or enter state "Waiting for operand2), displays the zero in gray.
 function checkInitialZero() {
 	if( (lowerScreen.textContent === "0" && operand1 === "")
-		|| (lowerScreen.textContent === "0" && upperScreen.textContent !== "" && operand2 === "" && state !== STATES.RESULT) ) {
+	|| (lowerScreen.textContent === "0" && upperScreen.textContent !== "" && operand2 === "" && state !== STATES.RESULT) ) {
 		lowerScreen.classList.add("initial-zero");
 	} else {
 		lowerScreen.classList.remove("initial-zero");
@@ -228,6 +228,7 @@ function handleInput(input) {
 						upperScreen.textContent = "To exit: press AC";
 						lowerScreen.textContent = "ERROR";
 						state = STATES.ERROR;
+						challengeActive = true;
 					} else {
 						operand1 = result;
 						upperScreen.textContent = operand1 + " " + binaryOperator;
@@ -267,6 +268,7 @@ function handleInput(input) {
 					upperScreen.textContent = "Invalid operation";
 					lowerScreen.textContent = "Press AC to exit";
 					state = STATES.ERROR;
+					challengeActive = true;
 				} else {
 					upperScreen.textContent = lowerScreen.textContent;
 					lowerScreen.textContent = result;
@@ -281,7 +283,9 @@ function handleInput(input) {
 //	- unaryOperator is empty and ready to use regardless of whether it was used previously
 //	- starts with Operand2 as empty string
 	if(state === STATES.WAITING_FOR_2) {
-		if(input === "-" && operand2 === "" && (unaryOperator === "" || unaryOperator === "√") ) {
+		if(input === "-"
+		&& operand2 === ""
+		&& (unaryOperator === "" || unaryOperator === "√") ) {
 			operand2 += input;
 			lowerScreen.textContent = unaryOperator + operand2; //unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand2 will consist solely of the negative sign
 		};
@@ -340,6 +344,7 @@ function handleInput(input) {
 					upperScreen.textContent = "Invalid operation";
 					lowerScreen.textContent = "Press AC to exit";
 					state = STATES.ERROR;
+					challengeActive = true;
 				} else {
 					operand2 = result;
 					upperScreen.textContent = operand1 + " " + binaryOperator + " " + operand2;
@@ -387,11 +392,30 @@ function handleInput(input) {
 		}
 	};
 
-//offer here the possibility to keep working on the result:
+//offer here the possibility to keep working from the result:
 //	it will be transfered to operand1 which will be outputted on upper screen if a binary operator is inputted
 //	user can add a unary operator to the result to modify it before it is outputted as described above 
 	if(state === STATES.RESULT) {
-
+		if(/^[√%²!]$/.test(input)) {
+				unaryOperator = input;
+				operand1 = result;
+				operand2 = "";
+				upperScreen.textContent = "";
+			if(input === "√") {
+				lowerScreen.textContent = unaryOperator + operand1;
+			} else {
+				lowerScreen.textContent = operand1 + unaryOperator;
+			}
+			state = STATES.WAITING_FOR_1;
+		};
+		if(/^[+\-×÷]$/.test(input)|| input === "MOD") {
+			operand1 = result;
+			operand2 = "";
+			binaryOperator = input;
+			upperScreen.textContent = operand1 + binaryOperator;
+			lowerScreen.textContent = "0";
+			state = STATES.WAITING_FOR_2;
+		};
 	};
 	checkInitialZero();
 };
