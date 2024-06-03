@@ -395,7 +395,7 @@ function handleInput(input) {
 			if (challengeActive) {
 				upperScreen.textContent = "You really thought that would be so easy? To get out of the error swamp, give me the first 8 decimals of pi!";
 				lowerScreen.textContent = "3.";
-				upperScreen.style.fontSize = "18px";
+				upperScreen.style.fontSize = "15px";
 				lowerScreen.style.fontSize = "20px";
 			} else {
 				upperScreen.style.fontSize = originalUpperFontSize;

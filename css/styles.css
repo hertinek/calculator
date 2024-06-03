@@ -1,6 +1,8 @@
 @font-face {
   font-family: 'Calculator'; /* Name your font family */
   src: url('../fonts/Calculator.ttf'); /* Locate the .ttf file within your directory*/
+  font-family: 'TICELarge'; /* Name your font family */
+  src: url('../fonts/TICELarge.ttf'); /* Locate the .ttf file within your directory*/
 }
 
 body {
@@ -32,14 +34,16 @@ body {
 	flex-direction: column;
 	justify-content: space-between;
 	width: 280px;
-	height: 100px;
+	height: 120px;
 	border: 10px outset darkgray;
 	border-radius: 5px;
 	background-color: rgba(255,255,255,0.7);
 }
+p {
+	font-family: 'TICELarge', sans-serif;
+}
 p#upper-screen {
 	border: 1px solid red;
-	/*font-family: 'Calculator', sans-serif;*/
 	white-space: wrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -48,7 +52,6 @@ p#upper-screen {
 }
 p#lower-screen {
 	border: 1px solid red;
-	/*font-family: 'Calculator', sans-serif;*/
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
