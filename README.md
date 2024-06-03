@@ -53,8 +53,6 @@ Available keys on the keyboard (tested) (some give the exact same inputs as the 
 
 
 Things to keep in mind (to implement later for instance, or just be mindful about):
-- differentiate between "error" and "strainful"
-	- factorial should be limited with regard to inputs
 	- think about overflow in display screen. See "text-overflow: ellipsis;".
 	- create animation when clicking buttons, to be mirrored with keyboard keys
 	- create a chart with instructions and information about the calculator, to be displayed next to it

@@ -33,12 +33,18 @@ body {
 	background-color: rgba(255,255,255,0.7);
 }
 p#upper-screen {
-	border: none;
+	border: 1px solid red;
+	white-space: wrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font-size: 30px;
 	margin: 0px 5px;
 }
 p#lower-screen {
-	border: none;
+	border: 1px solid red;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font-size: 35px;
 	font-weight: bold;
 	margin: 0px 5px;
