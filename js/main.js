@@ -66,12 +66,12 @@ document.addEventListener('keydown', event => {
 	if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(key) || key === 'Enter' || key === 'Backspace' || key === 'Escape') {
 		normalizeInput(key);
 		event.preventDefault();
-    	// Unfocus any focused button
-    	const activeElement = document.activeElement;
-    	if (activeElement && activeElement.tagName === 'BUTTON') {
-    		activeElement.blur();
-		};
 	};
+// Unfocus any focused button
+	const activeElement = document.activeElement;
+	if (activeElement && activeElement.tagName === 'BUTTON') {
+		activeElement.blur();
+	}
 });
 
 const buttons = document.querySelector("#controls");
