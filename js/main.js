@@ -206,7 +206,9 @@ function handleInput(input) {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
 		};
-		if(/^[0-9]$/.test(input) && operand1 !== "0") {
+		if(/^[0-9]$/.test(input)
+		&& operand1 !== "0"
+		&& !/^[%²!]$/.test(unaryOperator)) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;
 		};
@@ -312,7 +314,9 @@ function handleInput(input) {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
 		};
-		if(/^[0-9]$/.test(input) && operand2 !== "0") {
+		if(/^[0-9]$/.test(input)
+		&& operand2 !== "0"
+		&& !/^[%²!]$/.test(unaryOperator)) {
 			operand2 += input;
 			lowerScreen.textContent = unaryOperator + operand2;
 		};

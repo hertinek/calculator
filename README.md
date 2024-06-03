@@ -49,15 +49,15 @@ Available keys on the keyboard (tested) (some give the exact same inputs as the 
 		'Escape' key (for 'AC')
 	Note that the total number of actual keys that it represents cannot be asserted because of the different physical keyboards that users can have (mainly with or without a number keypad) but also the mapping that is used by their operating system.
 
+Currently working on fonts.
+Characters to check : 0-9*+-/=.,×XS÷M%V!²√ lorem ipsum dolor
 
-
-
+New bug: apparently I can write 3 + ! + 1 and that gives !31
 Things to keep in mind (to implement later for instance, or just be mindful about):
-	- think about overflow in display screen. See "text-overflow: ellipsis;".
 	- create animation when clicking buttons, to be mirrored with keyboard keys
 	- create a chart with instructions and information about the calculator, to be displayed next to it
 	- leave a tiny space every three digits
-	- add a police for buttons and digits to standardize outputs on different navigators
+	- add a font for buttons and digits to standardize outputs on different navigators
 	
 	
 	

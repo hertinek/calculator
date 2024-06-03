@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Calculator'; /* Name your font family */
+  src: url('../fonts/Calculator.ttf'); /* Locate the .ttf file within your directory*/
+}
+
 body {
 	margin: 0;
 	padding: 0;
@@ -34,18 +39,20 @@ body {
 }
 p#upper-screen {
 	border: 1px solid red;
+	/*font-family: 'Calculator', sans-serif;*/
 	white-space: wrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-size: 30px;
+	font-size: 30px; /*original 30 not bold*/
 	margin: 0px 5px;
 }
 p#lower-screen {
 	border: 1px solid red;
+	/*font-family: 'Calculator', sans-serif;*/
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-size: 35px;
+	font-size: 35px; /* original 35 bold*/
 	font-weight: bold;
 	margin: 0px 5px;
 	text-align: right;
