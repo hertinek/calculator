@@ -28,7 +28,13 @@ function squareRoot(a) {
 };
 
 function factorial(a) {
-	if (a < 0) {
+	if(!Number.isInteger(a)) {
+		return "exceeded"
+	}
+	if(a > 21) {
+		return "exceeded"
+	}
+	if(a < 0) {
 		return "error";
 	}
 	if (a === 0 || a === 1) {
@@ -222,11 +228,19 @@ function handleInput(input) {
 //that part must calculate the result of [operand1 and unaryOperator if there is one] before outputting it to upperScreen
 		if( (/^[+\-×÷]$/.test(input)|| input === "mod") &&  operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
-			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
+			if(unaryOperator === "%"
+			|| unaryOperator === "²"
+			|| unaryOperator === "√"
+			|| unaryOperator === "!") {
 				result = operations[unaryOperator](+operand1);
-				if(result === "error") {
-						upperScreen.textContent = "To exit: press AC";
-						lowerScreen.textContent = "ERROR";
+				if(result === "error"
+				|| result === "exceeded") {
+						if(result === "error"){
+							upperScreen.textContent = "Invalid operation";
+						} else if (result = "exceeded") {
+							upperScreen.textContent = "Operation limit exceeded";
+						}
+						lowerScreen.textContent = "Press AC to exit";
 						state = STATES.ERROR;
 						challengeActive = true;
 					} else {
@@ -264,11 +278,16 @@ function handleInput(input) {
 			|| unaryOperator === "√"
 			|| unaryOperator === "!") {
 				result = operations[unaryOperator](+operand1);
-				if(result === "error") {
-					upperScreen.textContent = "Invalid operation";
+				if(result === "error"
+				|| result === "exceeded") {
+					if(result === "error"){
+						upperScreen.textContent = "Invalid operation";
+					} else if (result = "exceeded") {
+						upperScreen.textContent = "Operation limit exceeded";
+					}
 					lowerScreen.textContent = "Press AC to exit";
 					state = STATES.ERROR;
-					challengeActive = true;
+					challengeActive = true;	
 				} else {
 					upperScreen.textContent = lowerScreen.textContent;
 					lowerScreen.textContent = result;
@@ -340,11 +359,16 @@ function handleInput(input) {
 			|| unaryOperator === "√"
 			|| unaryOperator === "!") {
 				result = operations[unaryOperator](+operand2);
-				if(result === "error") {
-					upperScreen.textContent = "Invalid operation";
-					lowerScreen.textContent = "Press AC to exit";
-					state = STATES.ERROR;
-					challengeActive = true;
+				if(result === "error"
+				|| result === "exceeded") {
+						if(result === "error"){
+							upperScreen.textContent = "Invalid operation";
+						} else if (result = "exceeded") {
+							upperScreen.textContent = "Operation limit exceeded";
+						}
+						lowerScreen.textContent = "Press AC to exit";
+						state = STATES.ERROR;
+						challengeActive = true;
 				} else {
 					operand2 = result;
 					upperScreen.textContent = operand1 + " " + binaryOperator + " " + operand2;
