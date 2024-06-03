@@ -343,14 +343,14 @@ function handleInput(input) {
 				} else {
 					operand2 = result;
 					upperScreen.textContent = operand1 + " " + binaryOperator + " " + operand2;
-					finalResult = operations[binaryOperator](+operand1, +operand2);
-					lowerScreen.textContent = finalResult;
+					result = operations[binaryOperator](+operand1, +operand2);
+					lowerScreen.textContent = result;
 					state = STATES.RESULT;
 				}
 			} else {
-				finalResult = operations[binaryOperator](+operand1, +operand2);
+				result = operations[binaryOperator](+operand1, +operand2);
 				upperScreen.textContent = +operand1 + " " + binaryOperator + " " + +operand2;
-				lowerScreen.textContent = finalResult;
+				lowerScreen.textContent = result;
 				state = STATES.RESULT;
 			}
 		};
@@ -387,8 +387,11 @@ function handleInput(input) {
 		}
 	};
 
+//offer here the possibility to keep working on the result:
+//	it will be transfered to operand1 which will be outputted on upper screen if a binary operator is inputted
+//	user can add a unary operator to the result to modify it before it is outputted as described above 
 	if(state === STATES.RESULT) {
-	
+
 	};
 	checkInitialZero();
 };
