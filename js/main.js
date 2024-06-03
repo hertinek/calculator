@@ -50,7 +50,7 @@ const operations = {
 	"-": (operand1, operand2) => subtraction(operand1, operand2),
 	"×": (operand1, operand2) => multiplication(operand1, operand2),
 	"÷": (operand1, operand2) => division(operand1, operand2),
-	"MOD": (operand1, operand2) => modulo(operand1, operand2),
+	"mod": (operand1, operand2) => modulo(operand1, operand2),
 	"%": (operand) => percentage(operand),
 	"²": (operand) => square(operand),
 	"√": (operand) => squareRoot(operand),
@@ -92,7 +92,7 @@ function normalizeInput(rawInput) {
 	'/': '÷',
 	',': '.',
 	'S': '²',
-	'M': 'MOD',
+	'M': 'mod',
 	'V': '√',
 	'Enter': '=',
 	'Backspace': 'C',
@@ -145,30 +145,30 @@ checkInitialZero();
 "Waiting for operand1";
 	- receives digits as strings and adds them to operand1 (which is a string too) and outputs the result on the screen, must limit number of inputs on the screen
 	- handles the case of the decimal point (to be used just once)
-	- accepts unary operators without leaving the mode:
-		- leaves the mode when receives '=' after a unary operator to 'Result' mode
-		- calculates with unary operator when receives a binary operator, pushes the result into 'operand1' and goes into 'Waiting for operand2' mode
-	- accepts binary operators and goes into "Waiting for operand2" mode in that case after having output in the upper part of the screen operand1 and the binary operator
+	- accepts unary operators without leaving the state:
+		- leaves the state when receives '=' after a unary operator to 'Result' state
+		- calculates with unary operator when receives a binary operator, pushes the result into 'operand1' and goes into 'Waiting for operand2' state
+	- accepts binary operators and goes into "Waiting for operand2" state in that case after having output in the upper part of the screen operand1 and the binary operator
 	- 'C': deletes one input/character
 	- 'AC': goes back to opening state of the calculator
-	- '=': goes into "Result" mode
+	- '=': goes into "Result" state
 
 "Waiting for operand2";
 	- receives digits as strings and adds them to operand2 and outputs the result on the screen, must limit number of inputs on the screen
 	- handles the case of the decimal point (to be used just once)
-	- accepts unary operators without leaving the mode:
-		- leaves the mode when receives '=' after a unary operator to 'Result' mode
+	- accepts unary operators without leaving the state:
+		- leaves the state when receives '=' after a unary operator to 'Result' state
 	- does not accept any other binary operator (the machine is limited to two operands)
 	- 'C': deletes one input/character
 	- 'AC': goes back to opening state of the calculator
-	- '=': goes into "Result" mode	
+	- '=': goes into "Result" state	
 	
 "Error";
 	- accepts only 'AC', which brings back to opening state (blank screen, "Waiting for operand1" state)
 
 "Result";
-	- accepts unary operators: pushes the result to operand1 and adds the unary operator, and moves to "Waiting for operand1" mode, where it expects either a binary operator, or '='
-	- accepts binary operators: pushes the result to operand1 and moves to "Waiting for operand2" mode
+	- accepts unary operators: pushes the result to operand1 and adds the unary operator, and moves to "Waiting for operand1" state, where it expects either a binary operator, or '='
+	- accepts binary operators: pushes the result to operand1 and moves to "Waiting for operand2" state
 	- accepts 'AC', goes back to zero
 	- does not accept any other input
 	
@@ -220,7 +220,7 @@ function handleInput(input) {
 			};
 		};		
 //that part must calculate the result of [operand1 and unaryOperator if there is one] before outputting it to upperScreen
-		if( (/^[+\-×÷]$/.test(input)|| input === "MOD") &&  operand1 !== "-" && operand1 !== "") {
+		if( (/^[+\-×÷]$/.test(input)|| input === "mod") &&  operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
 			if(unaryOperator === "%" || unaryOperator === "²" || unaryOperator === "√" || unaryOperator === "!") {
 				result = operations[unaryOperator](+operand1);
@@ -408,7 +408,7 @@ function handleInput(input) {
 			}
 			state = STATES.WAITING_FOR_1;
 		};
-		if(/^[+\-×÷]$/.test(input)|| input === "MOD") {
+		if(/^[+\-×÷]$/.test(input)|| input === "mod") {
 			operand1 = result;
 			operand2 = "";
 			binaryOperator = input;

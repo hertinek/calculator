@@ -17,7 +17,7 @@ This calculator handles:
 Available buttons on the calculator (that represent the 23 possible inputs received by the calculator):
 	- 10 digits (0 to 9)
 	- decimal point (.)
-	- 5 binary operators (+ - × ÷ and modulo operator (MOD))
+	- 5 binary operators (+ - × ÷ and modulo operator (mod))
 	- 4 unary operators :
 		- percentage (%)
 		- square (²)
@@ -36,7 +36,7 @@ Available keys on the keyboard (tested) (some give the exact same inputs as the 
 		+ - / *
 		×, or letter X as an alternative
 		÷
-		capital M key (for MOD)
+		capital M key (for mod)
 	- unary operators:
 		% (percentage)
 		² or capital S key (for square)
@@ -48,10 +48,6 @@ Available keys on the keyboard (tested) (some give the exact same inputs as the 
 		'Backspace' key (for 'C')
 		'Escape' key (for 'AC')
 	Note that the total number of actual keys that it represents cannot be asserted because of the different physical keyboards that users can have (mainly with or without a number keypad) but also the mapping that is used by their operating system.
-	
-	
-	BUGS:
-	- the unfocus/blur when keyboard is pressed works only with keys that are accepted in the code as counterparts to button
 
 
 
@@ -62,6 +58,7 @@ Things to keep in mind (to implement later for instance, or just be mindful abou
 	- create animation when clicking buttons, to be mirrored with keyboard keys
 	- create a chart with instructions and information about the calculator, to be displayed next to it
 	- leave a tiny space every three digits
+	- add a police for buttons and digits to standardize outputs on different navigators
 	
 	
 	
