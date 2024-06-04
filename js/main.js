@@ -106,6 +106,7 @@ function normalizeInput(rawInput) {
 	}
 	const input = map[rawInput] || rawInput;
 	handleInput(input);
+	checkInitialZero();
 };
 
 
@@ -198,7 +199,9 @@ function handleInput(input) {
 		state = STATES.WAITING_FOR_1;
 	};	
 	if(state === STATES.WAITING_FOR_1){
-		if(input === "-" && operand1 === "" && (unaryOperator === "" || unaryOperator === "√") ) {
+		if(input === "-"
+		&& operand1 === ""
+		&& (unaryOperator === "" || unaryOperator === "√") ) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;//unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand1 will consist solely of the negative sign
 		};
@@ -228,7 +231,8 @@ function handleInput(input) {
 			};
 		};		
 //that part must calculate the result of [operand1 and unaryOperator if there is one] before outputting it to upperScreen
-		if( (/^[+\-×÷]$/.test(input)|| input === "mod") &&  operand1 !== "-" && operand1 !== "") {
+		if( (/^[+\-×÷]$/.test(input) || input === "mod")
+		&&  operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
 			if(unaryOperator === "%"
 			|| unaryOperator === "²"
@@ -237,27 +241,31 @@ function handleInput(input) {
 				result = operations[unaryOperator](+operand1);
 				if(result === "error"
 				|| result === "exceeded") {
-						if(result === "error"){
-							upperScreen.textContent = "Invalid operation";
-						} else if (result = "exceeded") {
+					if(result === "error"){
+						upperScreen.textContent = "Invalid operation";
+					} else if(result === "exceeded") {
 							upperScreen.textContent = "Operation limit exceeded";
-						}
-						lowerScreen.textContent = "Press AC to exit";
-						state = STATES.ERROR;
-						challengeActive = true;
-					} else {
-						operand1 = result;
-						upperScreen.textContent = operand1 + " " + binaryOperator;
-						lowerScreen.textContent = "0";
-						state = STATES.WAITING_FOR_2;
-						unaryOperator = ""; //in case it should be used later
 					}
+					lowerScreen.textContent = "Press AC to exit";
+					state = STATES.ERROR;
+					challengeActive = true;
+				} else {
+					operand1 = result;
+					upperScreen.textContent = operand1 + " " + binaryOperator;
+					lowerScreen.textContent = "0";
+					state = STATES.WAITING_FOR_2;
+					unaryOperator = ""; //in case it should be used later
+				}
 			} else {
 				upperScreen.textContent = operand1 + " " + binaryOperator;
+
 				lowerScreen.textContent = "0";
-				state = STATES.WAITING_FOR_2;
 			}
-		};
+			checkInitialZero();
+			state = STATES.WAITING_FOR_2;
+			return
+		}
+		
 // undo last action unless if last action is press binary operator > to be handled in state2
 		if(input === "C") {
 			if(/[²%!]$/.test(unaryOperator)) {
@@ -303,10 +311,14 @@ function handleInput(input) {
 //	- operand1 is not empty and is outputted on upperScreen alongside binaryOperator
 //	- unaryOperator is empty and ready to use regardless of whether it was used previously
 //	- starts with Operand2 as empty string
+
+
+// BUG BUG BUG if 9² - or 9 -
 	if(state === STATES.WAITING_FOR_2) {
 		if(input === "-"
 		&& operand2 === ""
-		&& (unaryOperator === "" || unaryOperator === "√") ) {
+		&& unaryOperator === "√"
+		/*&& (unaryOperator === "" || unaryOperator === "√") */) {
 			operand2 += input;
 			lowerScreen.textContent = unaryOperator + operand2; //unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand2 will consist solely of the negative sign
 		};
