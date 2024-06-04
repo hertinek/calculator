@@ -146,6 +146,8 @@ function checkInitialZero() {
 };
 checkInitialZero();
 
+
+
 /*
 //Declare handleInput(input) that will be invoked by normalizeInput() for inputs from the keyboard, and buttons event listener. Depending on the variable "state", handleInput() will treat differently the inputs.
 
@@ -185,7 +187,7 @@ let challengeActive = true;
 const originalUpperFontSize = window.getComputedStyle(upperScreen).fontSize;
 const originalLowerFontSize = window.getComputedStyle(lowerScreen).fontSize;
 
-function handleInput(input) {
+function clearAll(input) {
 	if(input === "AC"
 	&& (state === STATES.WAITING_FOR_1
 	|| state === STATES.WAITING_FOR_2
@@ -197,7 +199,30 @@ function handleInput(input) {
 		upperScreen.textContent = "";
 		lowerScreen.textContent = "0";
 		state = STATES.WAITING_FOR_1;
-	};	
+	};
+};
+
+function handleInput(input) {
+	
+	clearAll(input);
+	
+	//to be refactored and extracted:
+/*	
+	if(input === "AC"
+	&& (state === STATES.WAITING_FOR_1
+	|| state === STATES.WAITING_FOR_2
+	|| state === STATES.RESULT) ) {
+		operand1 = "";
+		operand2 = "";
+		binaryOperator = "";
+		unaryOperator = "";
+		upperScreen.textContent = "";
+		lowerScreen.textContent = "0";
+		state = STATES.WAITING_FOR_1;
+	};
+*/	
+	
+	
 	if(state === STATES.WAITING_FOR_1){
 		if(input === "-"
 		&& operand1 === ""
