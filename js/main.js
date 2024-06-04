@@ -317,8 +317,7 @@ function handleInput(input) {
 	if(state === STATES.WAITING_FOR_2) {
 		if(input === "-"
 		&& operand2 === ""
-		&& unaryOperator === "√"
-		/*&& (unaryOperator === "" || unaryOperator === "√") */) {
+		&& (unaryOperator === "" || unaryOperator === "√") ) {
 			operand2 += input;
 			lowerScreen.textContent = unaryOperator + operand2; //unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand2 will consist solely of the negative sign
 		};
@@ -452,7 +451,7 @@ function handleInput(input) {
 			operand1 = result;
 			operand2 = "";
 			binaryOperator = input;
-			upperScreen.textContent = operand1 + binaryOperator;
+			upperScreen.textContent = operand1 + " " + binaryOperator;
 			lowerScreen.textContent = "0";
 			state = STATES.WAITING_FOR_2;
 		};
