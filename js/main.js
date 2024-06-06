@@ -214,6 +214,21 @@ function handleNegativeSign(input) {
 };
 
 
+function handleDecimalPoint(input) {
+	if(state === STATES.WAITING_FOR_1){
+		if(/^[.]$/.test(input)) {
+			if(operand1 === "") {
+				operand1 = "0.";
+				lowerScreen.textContent = operand1;
+			} else if(!operand1.includes(".") && operand1 !== "-") {
+				operand1 += input;
+				lowerScreen.textContent = unaryOperator + operand1;
+			};
+		};
+	};
+};
+
+
 function handleInput(input) {
 	
 	clearAll(input);
@@ -242,6 +257,7 @@ function handleInput(input) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;
 		};
+		/* refactorized function
 		if(/^[.]$/.test(input)) {
 			if(operand1 === "") {
 				operand1 = "0.";
@@ -251,6 +267,8 @@ function handleInput(input) {
 				lowerScreen.textContent = unaryOperator + operand1;
 			};
 		};
+		*/
+		handleDecimalPoint(input);
 		if(/^[%²!]$/.test(input)) {
 			if(unaryOperator === "" && operand1 !== "" && operand1 !== "-") {
 			unaryOperator = input;
@@ -340,7 +358,7 @@ function handleInput(input) {
 //	- starts with Operand2 as empty string
 
 
-// BUG BUG BUG if 9² - or 9 -
+
 	if(state === STATES.WAITING_FOR_2) {
 		if(input === "-"
 		&& operand2 === ""
@@ -367,6 +385,8 @@ function handleInput(input) {
 				lowerScreen.textContent = unaryOperator + operand2; //same, keep unaryOperator if it exists, if it's empty it won't show on the screen
 			};
 		};
+
+		
 		if(/^[%²!]$/.test(input)) {
 			if(unaryOperator === "" && operand2 !== "" && operand2 !== "-") {
 			unaryOperator = input;
