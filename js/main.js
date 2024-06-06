@@ -188,10 +188,9 @@ const originalUpperFontSize = window.getComputedStyle(upperScreen).fontSize;
 const originalLowerFontSize = window.getComputedStyle(lowerScreen).fontSize;
 
 function clearAll(input) {
-	if(input === "AC"
-	&& (state === STATES.WAITING_FOR_1
+	if(state === STATES.WAITING_FOR_1
 	|| state === STATES.WAITING_FOR_2
-	|| state === STATES.RESULT) ) {
+	|| state === STATES.RESULT) {
 		operand1 = "";
 		operand2 = "";
 		binaryOperator = "";
@@ -204,8 +203,7 @@ function clearAll(input) {
 
 function handleNegativeSign(input) {
 	if(state === STATES.WAITING_FOR_1){
-		if(input === "-"
-		&& operand1 === ""
+		if(operand1 === ""
 		&& (unaryOperator === "" || unaryOperator === "√") ) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;//unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand1 will consist solely of the negative sign
@@ -216,65 +214,77 @@ function handleNegativeSign(input) {
 
 function handleDecimalPoint(input) {
 	if(state === STATES.WAITING_FOR_1){
-		if(/^[.]$/.test(input)) {
-			if(operand1 === "") {
-				operand1 = "0.";
-				lowerScreen.textContent = operand1;
-			} else if(!operand1.includes(".") && operand1 !== "-") {
-				operand1 += input;
-				lowerScreen.textContent = unaryOperator + operand1;
-			};
+		if(operand1 === "") {
+			operand1 = "0.";
+			lowerScreen.textContent = operand1;
+		} else if(!operand1.includes(".") && operand1 !== "-") {
+			operand1 += input;
+			lowerScreen.textContent = unaryOperator + operand1;
 		};
 	};
 };
 
 
+function handleDigits(input) {
+	if(state === STATES.WAITING_FOR_1) {
+		if(operand1 !== "0"
+		&& !/^[%²!]$/.test(unaryOperator)) 
+			operand1 += input;
+			lowerScreen.textContent = unaryOperator + operand1;
+	}
+}
+
+function handleUnaryOperators(input) {
+	if(state === STATES.WAITING_FOR_1) {
+		if(input === "√" && operand1 === "") {
+			unaryOperator = input;
+			lowerScreen.textContent = unaryOperator;
+		} else if(unaryOperator === "" && operand1 !== "" && operand1 !== "-") {
+			unaryOperator = input;
+			lowerScreen.textContent += unaryOperator;
+		}
+	}
+}
+
+
 function handleInput(input) {
 	
-	clearAll(input);
+	if(input === "AC") {
+		clearAll(input);
+	}
 
 
 	if(state === STATES.WAITING_FOR_1){
 	
-		handleNegativeSign(input);
-/*
-		if(input === "-"
-		&& operand1 === ""
-		&& (unaryOperator === "" || unaryOperator === "√") ) {
-			operand1 += input;
-			lowerScreen.textContent = unaryOperator + operand1;//unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand1 will consist solely of the negative sign
-		};
-*/
+	
+		if(input === "-") {
+			handleNegativeSign(input);
+		}// only neg sign, for - as binary operator see farther below
 
+		if(/^[0-9]$/.test(input)) {
+			handleDigits(input);
+		}
+		
+		if(/^[.]$/.test(input)) {
+			handleDecimalPoint(input);
+		}
 
-		if(input === "√" && operand1 === "") {
+/*		if(input === "√" && operand1 === "") {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
-		};
-		if(/^[0-9]$/.test(input)
-		&& operand1 !== "0"
-		&& !/^[%²!]$/.test(unaryOperator)) {
-			operand1 += input;
-			lowerScreen.textContent = unaryOperator + operand1;
-		};
-		/* refactorized function
-		if(/^[.]$/.test(input)) {
-			if(operand1 === "") {
-				operand1 = "0.";
-				lowerScreen.textContent = operand1;
-			} else if(!operand1.includes(".") && operand1 !== "-") {
-				operand1 += input;
-				lowerScreen.textContent = unaryOperator + operand1;
-			};
-		};
-		*/
-		handleDecimalPoint(input);
+		}
 		if(/^[%²!]$/.test(input)) {
 			if(unaryOperator === "" && operand1 !== "" && operand1 !== "-") {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
 			};
-		};		
+		} */
+		if(/^[%²!√]$/.test(input)) {
+			handleUnaryOperators(input);
+		}
+
+			
+		
 //that part must calculate the result of [operand1 and unaryOperator if there is one] before outputting it to upperScreen
 		if( (/^[+\-×÷]$/.test(input) || input === "mod")
 		&&  operand1 !== "-" && operand1 !== "") {
