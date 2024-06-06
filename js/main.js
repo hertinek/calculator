@@ -280,6 +280,25 @@ function handleBinaryOperators(input) {
 	}
 }
 
+function undoLastAction() {
+	if(state === STATES.WAITING_FOR_1) {
+	// undo last action unless last action is press binary operator > to be handled in state2
+		if(/[²%!]$/.test(unaryOperator)) {
+			unaryOperator = "";
+			lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+		} else if(operand1.length > 1
+			&& /[0-9.]$/.test(operand1)) {
+			lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+			operand1 = operand1.slice(0, -1);
+		} else if(/^[0-9\-]$/.test(operand1)
+			|| (unaryOperator === "√" && operand1 === "") ) {
+			unaryOperator = "";
+			operand1 = "";
+			lowerScreen.textContent = "0";
+		}
+	}
+}
+
 
 function handleInput(input) {
 	
@@ -312,22 +331,17 @@ function handleInput(input) {
 		}
 
 		
-// undo last action unless if last action is press binary operator > to be handled in state2
+
+
 		if(input === "C") {
-			if(/[²%!]$/.test(unaryOperator)) {
-				unaryOperator = "";
-				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
-			} else if(operand1.length > 1
-				&& /[0-9.]$/.test(operand1)) {
-				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
-				operand1 = operand1.slice(0, -1);
-			} else if(/^[0-9\-]$/.test(operand1)
-				|| (unaryOperator === "√" && operand1 === "") ) {
-				unaryOperator = "";
-				operand1 = "";
-				lowerScreen.textContent = "0";
-			}
-		};
+			undoLastAction(input);
+		}
+
+
+
+
+
+
 		if(input === "=" && operand1 !== "") {
 			if(unaryOperator === "%"
 			|| unaryOperator === "²"
