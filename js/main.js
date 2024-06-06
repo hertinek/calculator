@@ -246,6 +246,40 @@ function handleUnaryOperators(input) {
 	}
 }
 
+function handleBinaryOperators(input) {
+	if(state === STATES.WAITING_FOR_1) {
+		if(operand1 !== "-" && operand1 !== "") {
+			binaryOperator = input;
+			if(unaryOperator !== "") {
+				result = operations[unaryOperator](+operand1);
+				if(result === "error"
+				|| result === "exceeded") {
+					if(result === "error"){
+						upperScreen.textContent = "Invalid operation";
+					} else if(result === "exceeded") {
+							upperScreen.textContent = "Operation limit exceeded";
+					}
+					lowerScreen.textContent = "Press AC to exit";
+					state = STATES.ERROR;
+					challengeActive = true;
+				} else {
+					operand1 = result;
+					upperScreen.textContent = operand1 + " " + binaryOperator;
+					lowerScreen.textContent = "0";
+					state = STATES.WAITING_FOR_2;
+					unaryOperator = ""; //in case it should be used later
+				}
+			} else {
+				upperScreen.textContent = operand1 + " " + binaryOperator;
+				lowerScreen.textContent = "0";
+			}
+			checkInitialZero();
+			state = STATES.WAITING_FOR_2;
+			return
+		}
+	}
+}
+
 
 function handleInput(input) {
 	
@@ -269,57 +303,14 @@ function handleInput(input) {
 			handleDecimalPoint(input);
 		}
 
-/*		if(input === "√" && operand1 === "") {
-			unaryOperator = input;
-			lowerScreen.textContent = unaryOperator;
-		}
-		if(/^[%²!]$/.test(input)) {
-			if(unaryOperator === "" && operand1 !== "" && operand1 !== "-") {
-			unaryOperator = input;
-			lowerScreen.textContent += unaryOperator;
-			};
-		} */
 		if(/^[%²!√]$/.test(input)) {
 			handleUnaryOperators(input);
 		}
-
-			
 		
-//that part must calculate the result of [operand1 and unaryOperator if there is one] before outputting it to upperScreen
-		if( (/^[+\-×÷]$/.test(input) || input === "mod")
-		&&  operand1 !== "-" && operand1 !== "") {
-			binaryOperator = input;
-			if(unaryOperator === "%"
-			|| unaryOperator === "²"
-			|| unaryOperator === "√"
-			|| unaryOperator === "!") {
-				result = operations[unaryOperator](+operand1);
-				if(result === "error"
-				|| result === "exceeded") {
-					if(result === "error"){
-						upperScreen.textContent = "Invalid operation";
-					} else if(result === "exceeded") {
-							upperScreen.textContent = "Operation limit exceeded";
-					}
-					lowerScreen.textContent = "Press AC to exit";
-					state = STATES.ERROR;
-					challengeActive = true;
-				} else {
-					operand1 = result;
-					upperScreen.textContent = operand1 + " " + binaryOperator;
-					lowerScreen.textContent = "0";
-					state = STATES.WAITING_FOR_2;
-					unaryOperator = ""; //in case it should be used later
-				}
-			} else {
-				upperScreen.textContent = operand1 + " " + binaryOperator;
-
-				lowerScreen.textContent = "0";
-			}
-			checkInitialZero();
-			state = STATES.WAITING_FOR_2;
-			return
+		if(/^[+\-×÷]$/.test(input) || input === "mod") {
+			handleBinaryOperators(input);
 		}
+
 		
 // undo last action unless if last action is press binary operator > to be handled in state2
 		if(input === "C") {
