@@ -300,6 +300,31 @@ function undoLastAction() {
 	}
 }
 
+function handleEquals(input) {
+	if(state === STATES.WAITING_FOR_1) {
+		if(operand1 !== "") {
+			if(unaryOperator !== "") {
+				result = operations[unaryOperator](+operand1);
+				if(result === "error"
+				|| result === "exceeded") {
+					if(result === "error"){
+						upperScreen.textContent = "Invalid operation";
+					} else if (result = "exceeded") {
+						upperScreen.textContent = "Operation limit exceeded";
+					}
+					lowerScreen.textContent = "Press AC to exit";
+					state = STATES.ERROR;
+					challengeActive = true;	
+				} else {
+					upperScreen.textContent = lowerScreen.textContent;
+					lowerScreen.textContent = result;
+					state = STATES.RESULT;
+				}
+			}
+		}
+	}
+}
+
 
 function handleInput(input) {
 	
@@ -331,43 +356,16 @@ function handleInput(input) {
 			handleBinaryOperators(input);
 		}
 
-		
-
-
 		if(input === "C") {
 			undoLastAction(input);
 		}
 
+		if(input === "=") {
+			handleEquals(input);
+		}
+}
 
 
-
-
-
-		if(input === "=" && operand1 !== "") {
-			if(unaryOperator === "%"
-			|| unaryOperator === "²"
-			|| unaryOperator === "√"
-			|| unaryOperator === "!") {
-				result = operations[unaryOperator](+operand1);
-				if(result === "error"
-				|| result === "exceeded") {
-					if(result === "error"){
-						upperScreen.textContent = "Invalid operation";
-					} else if (result = "exceeded") {
-						upperScreen.textContent = "Operation limit exceeded";
-					}
-					lowerScreen.textContent = "Press AC to exit";
-					state = STATES.ERROR;
-					challengeActive = true;	
-				} else {
-					upperScreen.textContent = lowerScreen.textContent;
-					lowerScreen.textContent = result;
-					state = STATES.RESULT;
-				}
-			};	
-			
-		};
-	};
 // The state "Waiting for operand2" is characterized by:
 //	- operand1 is not empty and is outputted on upperScreen alongside binaryOperator
 //	- unaryOperator is empty and ready to use regardless of whether it was used previously

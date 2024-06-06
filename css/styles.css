@@ -41,9 +41,9 @@ body {
 }
 p {
 	font-family: 'TICELarge', sans-serif;
+	/*border: 1px solid red;*/
 }
 p#upper-screen {
-	border: 1px solid red;
 	white-space: wrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -51,7 +51,6 @@ p#upper-screen {
 	margin: 0px 5px;
 }
 p#lower-screen {
-	border: 1px solid red;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
