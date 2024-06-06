@@ -202,34 +202,36 @@ function clearAll(input) {
 	};
 };
 
-function handleInput(input) {
-	
-	clearAll(input);
-	
-	//to be refactored and extracted:
-/*	
-	if(input === "AC"
-	&& (state === STATES.WAITING_FOR_1
-	|| state === STATES.WAITING_FOR_2
-	|| state === STATES.RESULT) ) {
-		operand1 = "";
-		operand2 = "";
-		binaryOperator = "";
-		unaryOperator = "";
-		upperScreen.textContent = "";
-		lowerScreen.textContent = "0";
-		state = STATES.WAITING_FOR_1;
-	};
-*/	
-	
-	
+function handleNegativeSign(input) {
 	if(state === STATES.WAITING_FOR_1){
 		if(input === "-"
 		&& operand1 === ""
 		&& (unaryOperator === "" || unaryOperator === "√") ) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;//unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand1 will consist solely of the negative sign
+		}
+	}	
+};
+
+
+function handleInput(input) {
+	
+	clearAll(input);
+
+
+	if(state === STATES.WAITING_FOR_1){
+	
+		handleNegativeSign(input);
+/*
+		if(input === "-"
+		&& operand1 === ""
+		&& (unaryOperator === "" || unaryOperator === "√") ) {
+			operand1 += input;
+			lowerScreen.textContent = unaryOperator + operand1;//unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand1 will consist solely of the negative sign
 		};
+*/
+
+
 		if(input === "√" && operand1 === "") {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
