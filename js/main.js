@@ -239,7 +239,8 @@ function handleUnaryOperators(input) {
 		if(input === "√" && operand1 === "") {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
-		} else if(unaryOperator === "" && operand1 !== "" && operand1 !== "-") {
+		} else if(input !== "√" && unaryOperator === ""
+		&& operand1 !== "" && operand1 !== "-") {
 			unaryOperator = input;
 			lowerScreen.textContent += unaryOperator;
 		}
