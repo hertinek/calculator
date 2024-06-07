@@ -1,5 +1,4 @@
-//Declare 4 functions for the 4 basic operations that will update and use a and b, plus the modulo operator (not basic, but binary):
-
+// Functions for operations with binary operators
 const addition = (a, b) => a + b;
 const subtraction = (a, b) => a - b;
 const multiplication = (a, b) => a * b;
@@ -14,19 +13,15 @@ const modulo = (a, b) => {
 	return a % b;
 };
 
-//? Declare functions for unary operations: percentage, square, square root, factorial.
-
+// Functions for operations with unary operators
 const percentage = a => a * 0.01;
-
 const square = a => a * a;
-
 function squareRoot(a) {
 	if(a < 0) {
 	return "error"
 	}
 	return Math.sqrt(a)
 };
-
 function factorial(a) {
 	if(!Number.isInteger(a)) {
 		return "exceeded"
@@ -44,13 +39,10 @@ function factorial(a) {
 	for (let i = 2; i <= a; i++) {
 		result *= i;
 	}
-		return result;
-};
+	return result;
+}
 
-
-//Declare functions that requires three variable (operand1, operator, operand2) or two variables (operand, operator) that will each invoke one of the functions for basic operations. These functions will be invoked when "equals" value is received (keyboard with enter or button "=" pressed) under "Waiting for operand 2" state, and will receive as arguments the values stored at that moment.
-
-
+// Different operations depending on the operator received
 const operations = {
 	"+": (operand1, operand2) => addition(operand1, operand2),
 	"-": (operand1, operand2) => subtraction(operand1, operand2),
@@ -61,12 +53,9 @@ const operations = {
 	"²": (operand) => square(operand),
 	"√": (operand) => squareRoot(operand),
 	"!": (operand) => factorial(operand),
-};
+}
 
-
-
-//Listen to keyboard events AND to button events. The keyboard event function must also filter in only the necessary characters (digits and operators).
-
+// Listen to keyboard events AND to button events. The keyboard event function must also filter out the unnecessary characters (those other digits and operators, equals, clear all, undo).
 document.addEventListener('keydown', event => {
 	key = event.key;
 	if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(key) || key === 'Enter' || key === 'Backspace' || key === 'Escape') {
@@ -79,18 +68,7 @@ document.addEventListener('keydown', event => {
 		activeElement.blur();
 	}
 });
-
-const buttons = document.querySelector("#controls");
-buttons.addEventListener('click', event => {
-	const input = event.target;
-	if(input.tagName === 'BUTTON') {
-		const buttonText = input.textContent;
-		handleInput(buttonText);
-	}
-});
-
-//Declare normalizeInput() that will take all the inputs given by the keyboard, transform and merge them when necessary into new standardized inputs, and feed them to the function handleInput that will deal with them.
-
+// Function that will take all the inputs given by the keyboard, transform and/or merge them when necessary into new standardized inputs, and feed them to the function handleInput() that will deal with them just as if they were coming from the buttons:
 function normalizeInput(rawInput) {
 	const map = {
 	'*': '×',
@@ -108,34 +86,40 @@ function normalizeInput(rawInput) {
 	handleInput(input);
 	checkInitialZero();
 };
+const buttons = document.querySelector("#controls");
+buttons.addEventListener('click', event => {
+	const input = event.target;
+	if(input.tagName === 'BUTTON') {
+		const buttonText = input.textContent;
+		handleInput(buttonText);
+	}
+});
 
-
-//Declare variable "state" (that will eventually have 4 possible values: "Waiting for operand1", 'Waiting for operand2", "Error", "Result")
-
+// Different states of the calculator that will influence how it responds to the inputs:
 const STATES = {
 	'WAITING_FOR_1': "Waiting-for-operand1",
 	'WAITING_FOR_2': "Waiting-for-operand2",
 	'ERROR': "Error",
 	'RESULT': "Result",
 };
-let state = STATES.WAITING_FOR_1;
+let state = STATES.WAITING_FOR_1;//this is how the calculator starts
 
-//Declare variables "operand1", "binaryOperator", "operand2", and "unaryOperator" all with empty strings as starting values
-
+// Different input values that the calculator will have to work with
 let operand1 = "";
-let binaryOperator = "";
 let operand2 = "";
 let unaryOperator = "";
+let binaryOperator = "";
 
-//Declare two const for the two parts of the screen, upper-screen and lower-screen.
-
-
+//Two different parts of the screen where information and results will be displayed:
 let upperScreen = document.querySelector("#upper-screen");
 upperScreen.textContent = "";
 let lowerScreen = document.querySelector("#lower-screen");
 lowerScreen.textContent = "0";
+// Storing initial screen sizes in case it is changed in the course of the program:
+const originalUpperFontSize = window.getComputedStyle(upperScreen).fontSize;
+const originalLowerFontSize = window.getComputedStyle(lowerScreen).fontSize;
 
-// Create function checkInitialZero that checks if the zero displayed by the lower screen corresponds to a zero actually stored in the operand variable. If not (as is the case when calculator is initialized, or enter state "Waiting for operand2), displays the zero in gray.
+// Function that checks if the zero displayed by the lower screen corresponds to a zero actually stored in the operand variable. If not (as is the case when calculator is initialized, or enter state "Waiting for operand2), displays the zero in gray:
 function checkInitialZero() {
 	if( (lowerScreen.textContent === "0" && operand1 === "")
 	|| (lowerScreen.textContent === "0" && upperScreen.textContent !== "" && operand2 === "" && state !== STATES.RESULT) ) {
@@ -146,9 +130,37 @@ function checkInitialZero() {
 };
 checkInitialZero();
 
+// Function that receives the inputs (keyboard or buttons)
+function handleInput(input) {
+	if(input === "AC") {
+		clearAll(input);
+	}
+	if(input === "-") {
+		handleNegativeSign(input);
+	}// only neg sign, for minus as binary operator see farther below
+	if(/^[0-9]$/.test(input)) {
+		handleDigits(input);
+	}
+	if(/^[.]$/.test(input)) {
+		handleDecimalPoint(input);
+	}
+	if(/^[%²!√]$/.test(input)) {
+		handleUnaryOperators(input);
+	}
+	if(/^[+\-×÷]$/.test(input) || input === "mod") {
+		handleBinaryOperators(input);
+	}
+	if(input === "C") {
+		undoLastAction(input);
+	}
+	if(input === "=") {
+		handleEquals(input);
+	}
+	checkInitialZero();
+};
+
+// Challenge to get out of the error state (see below inside clearAll())
 let challengeActive = true;
-const originalUpperFontSize = window.getComputedStyle(upperScreen).fontSize;
-const originalLowerFontSize = window.getComputedStyle(lowerScreen).fontSize;
 
 function clearAll(input) {
 	if(state === STATES.WAITING_FOR_1
@@ -193,10 +205,6 @@ function clearAll(input) {
 		}
 	}
 }
-
-/* to be refactored & deleted
-
-*/
 
 function handleNegativeSign(input) {
 	if(state === STATES.WAITING_FOR_1){
@@ -307,6 +315,8 @@ function handleBinaryOperators(input) {
 							upperScreen.textContent = "Operation limit exceeded";
 					}
 					lowerScreen.textContent = "Press AC to exit";
+//					upperScreen.style.fontSize = "20px";
+//					lowerScreen.style.fontSize = "23px";
 					state = STATES.ERROR;
 					challengeActive = true;
 				} else {
@@ -431,31 +441,5 @@ function handleEquals(input) {
 
 
 
-function handleInput(input) {
-	if(input === "AC") {
-		clearAll(input);
-	}
-	if(input === "-") {
-		handleNegativeSign(input);
-	}// only neg sign, for minus as binary operator see farther below
-	if(/^[0-9]$/.test(input)) {
-		handleDigits(input);
-	}
-	if(/^[.]$/.test(input)) {
-		handleDecimalPoint(input);
-	}
-	if(/^[%²!√]$/.test(input)) {
-		handleUnaryOperators(input);
-	}
-	if(/^[+\-×÷]$/.test(input) || input === "mod") {
-		handleBinaryOperators(input);
-	}
-	if(input === "C") {
-		undoLastAction(input);
-	}
-	if(input === "=") {
-		handleEquals(input);
-	}
-	checkInitialZero();
-};
+
 

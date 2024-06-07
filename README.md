@@ -53,6 +53,9 @@ Currently working on fonts.
 Characters to check : 0-9*+-/=.,×XS÷M%V!²√ lorem ipsum dolor
 
 New bug: apparently I can write 3 + ! + 1 and that gives !31
+
+Bug 25! suivi de binary operator produit un message d'erreur dont on sort sans challenge.
+
 Things to keep in mind (to implement later for instance, or just be mindful about):
 	- create animation when clicking buttons, to be mirrored with keyboard keys
 	- create a chart with instructions and information about the calculator, to be displayed next to it
