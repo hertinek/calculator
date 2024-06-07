@@ -204,11 +204,20 @@ function clearAll(input) {
 function handleNegativeSign(input) {
 	if(state === STATES.WAITING_FOR_1){
 		if(operand1 === ""
-		&& (unaryOperator === "" || unaryOperator === "√") ) {
+		&& (unaryOperator === ""
+		|| unaryOperator === "√") ) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;//unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand1 will consist solely of the negative sign
 		}
-	}	
+	}
+	if(state === STATES.WAITING_FOR_2) {
+		if(operand2 === ""
+		&& (unaryOperator === ""
+		|| unaryOperator === "√") ) {
+			operand2 += input;
+			lowerScreen.textContent = unaryOperator + operand2; //unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand2 will consist solely of the negative sign
+		}
+	}
 };
 
 
@@ -302,7 +311,7 @@ function undoLastAction() {
 
 function handleEquals(input) {
 	if(state === STATES.WAITING_FOR_1) {
-		if(operand1 !== "") {
+		if(operand1 !== "" && operand1 !== "-") {
 			if(unaryOperator !== "") {
 				result = operations[unaryOperator](+operand1);
 				if(result === "error"
@@ -332,38 +341,34 @@ function handleInput(input) {
 		clearAll(input);
 	}
 
+	if(input === "-") {
+		handleNegativeSign(input);
+	}// only neg sign, for - as binary operator see farther below
 
-	if(state === STATES.WAITING_FOR_1){
+	if(/^[0-9]$/.test(input)) {
+		handleDigits(input);
+	}
 	
+	if(/^[.]$/.test(input)) {
+		handleDecimalPoint(input);
+	}
+
+	if(/^[%²!√]$/.test(input)) {
+		handleUnaryOperators(input);
+	}
 	
-		if(input === "-") {
-			handleNegativeSign(input);
-		}// only neg sign, for - as binary operator see farther below
+	if(/^[+\-×÷]$/.test(input) || input === "mod") {
+		handleBinaryOperators(input);
+	}
 
-		if(/^[0-9]$/.test(input)) {
-			handleDigits(input);
-		}
-		
-		if(/^[.]$/.test(input)) {
-			handleDecimalPoint(input);
-		}
+	if(input === "C") {
+		undoLastAction(input);
+	}
 
-		if(/^[%²!√]$/.test(input)) {
-			handleUnaryOperators(input);
-		}
-		
-		if(/^[+\-×÷]$/.test(input) || input === "mod") {
-			handleBinaryOperators(input);
-		}
+	if(input === "=") {
+		handleEquals(input);
+	}
 
-		if(input === "C") {
-			undoLastAction(input);
-		}
-
-		if(input === "=") {
-			handleEquals(input);
-		}
-}
 
 
 // The state "Waiting for operand2" is characterized by:
@@ -374,12 +379,7 @@ function handleInput(input) {
 
 
 	if(state === STATES.WAITING_FOR_2) {
-		if(input === "-"
-		&& operand2 === ""
-		&& (unaryOperator === "" || unaryOperator === "√") ) {
-			operand2 += input;
-			lowerScreen.textContent = unaryOperator + operand2; //unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand2 will consist solely of the negative sign
-		};
+
 		if(input === "√" && operand2 === "") {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
