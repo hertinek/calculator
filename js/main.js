@@ -146,43 +146,6 @@ function checkInitialZero() {
 };
 checkInitialZero();
 
-
-
-/*
-//Declare handleInput(input) that will be invoked by normalizeInput() for inputs from the keyboard, and buttons event listener. Depending on the variable "state", handleInput() will treat differently the inputs.
-
-"Waiting for operand1";
-	- receives digits as strings and adds them to operand1 (which is a string too) and outputs the result on the screen, must limit number of inputs on the screen
-	- handles the case of the decimal point (to be used just once)
-	- accepts unary operators without leaving the state:
-		- leaves the state when receives '=' after a unary operator to 'Result' state
-		- calculates with unary operator when receives a binary operator, pushes the result into 'operand1' and goes into 'Waiting for operand2' state
-	- accepts binary operators and goes into "Waiting for operand2" state in that case after having output in the upper part of the screen operand1 and the binary operator
-	- 'C': deletes one input/character
-	- 'AC': goes back to opening state of the calculator
-	- '=': goes into "Result" state
-
-"Waiting for operand2";
-	- receives digits as strings and adds them to operand2 and outputs the result on the screen, must limit number of inputs on the screen
-	- handles the case of the decimal point (to be used just once)
-	- accepts unary operators without leaving the state:
-		- leaves the state when receives '=' after a unary operator to 'Result' state
-	- does not accept any other binary operator (the machine is limited to two operands)
-	- 'C': deletes one input/character
-	- 'AC': goes back to opening state of the calculator
-	- '=': goes into "Result" state	
-	
-"Error";
-	- accepts only 'AC', which brings back to opening state (blank screen, "Waiting for operand1" state)
-
-"Result";
-	- accepts unary operators: pushes the result to operand1 and adds the unary operator, and moves to "Waiting for operand1" state, where it expects either a binary operator, or '='
-	- accepts binary operators: pushes the result to operand1 and moves to "Waiting for operand2" state
-	- accepts 'AC', goes back to zero
-	- does not accept any other input
-	
-*/
-
 let challengeActive = true;
 const originalUpperFontSize = window.getComputedStyle(upperScreen).fontSize;
 const originalLowerFontSize = window.getComputedStyle(lowerScreen).fontSize;
@@ -198,8 +161,42 @@ function clearAll(input) {
 		upperScreen.textContent = "";
 		lowerScreen.textContent = "0";
 		state = STATES.WAITING_FOR_1;
-	};
-};
+	}
+	if(state === STATES.ERROR) {
+		if (input === "AC") {
+			if(challengeActive) {
+				upperScreen.textContent = "You really thought that would be so easy? To get out of the error swamp, give me the first 8 decimals of pi!";
+				lowerScreen.textContent = "3.";
+				upperScreen.style.fontSize = "15px";
+				lowerScreen.style.fontSize = "20px";
+			} else if(!challengeActive) { //challenge temporarily deactivated by good answer, see below
+				upperScreen.style.fontSize = originalUpperFontSize;
+				lowerScreen.style.fontSize = originalLowerFontSize;
+				operand1 = "";
+				operand2 = "";
+				binaryOperator = "";
+				unaryOperator = "";
+				upperScreen.textContent = "";
+				lowerScreen.textContent = "0";
+				state = STATES.WAITING_FOR_1;
+			}
+		} else if(challengeActive && /^[0-9]$/.test(input)) {
+			console.log(input);
+			lowerScreen.textContent += input; // Append number to lower screen
+			if (lowerScreen.textContent === "3.14159265") {
+				upperScreen.textContent = "Good. But don't get yourself in trouble again!";
+				challengeActive = false; // Deactivate the challenge
+			} else if (lowerScreen.textContent.length > 10) {
+				upperScreen.textContent = "Incorrect! Try again.";
+				lowerScreen.textContent = "3."; // Reset lower screen
+			}
+		}
+	}
+}
+
+/* to be refactored & deleted
+
+*/
 
 function handleNegativeSign(input) {
 	if(state === STATES.WAITING_FOR_1){
@@ -238,9 +235,9 @@ function handleDecimalPoint(input) {
 		} else if(!operand2.includes(".") && operand2 !== "-") {
 			operand2 += input;
 			lowerScreen.textContent = unaryOperator + operand2; //same, keep unaryOperator if it exists, if it's empty it won't show on the screen
-		};
+		}
 	}
-};
+}
 
 function handleDigits(input) {
 	if(state === STATES.WAITING_FOR_1) {
@@ -254,7 +251,10 @@ function handleDigits(input) {
 		&& !/^[%²!]$/.test(unaryOperator))
 			operand2 += input;
 			lowerScreen.textContent = unaryOperator + operand2;	
-	}	
+	}
+	if(state === STATES.ERROR) {
+		clearAll(input);
+	}
 }
 
 function handleUnaryOperators(input) {
@@ -278,11 +278,23 @@ function handleUnaryOperators(input) {
 			lowerScreen.textContent += unaryOperator;
 		}
 	}
+	if(state === STATES.RESULT) {
+		unaryOperator = input;
+		operand1 = result;
+		operand2 = "";
+		upperScreen.textContent = "";
+		if(input === "√") {
+			lowerScreen.textContent = unaryOperator + operand1;
+		} else {
+			lowerScreen.textContent = operand1 + unaryOperator;
+		}
+		state = STATES.WAITING_FOR_1;
+	}
 }
 
 function handleBinaryOperators(input) {
 	if(state === STATES.WAITING_FOR_1) {
-// note that binary operators (including modulo) are active only in state "waiting for operand1" 
+// note that binary operators (including modulo) are not active in state "waiting for operand2" 
 		if(operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
 			if(unaryOperator !== "") {
@@ -312,6 +324,14 @@ function handleBinaryOperators(input) {
 			state = STATES.WAITING_FOR_2;
 			return
 		}
+	}
+	if(state === STATES.RESULT) {
+		operand1 = result;
+		operand2 = "";
+		binaryOperator = input;
+		upperScreen.textContent = operand1 + " " + binaryOperator;
+		lowerScreen.textContent = "0";
+		state = STATES.WAITING_FOR_2;
 	}
 }
 
@@ -376,8 +396,7 @@ function handleEquals(input) {
 				}
 			}
 		}
-	}
-	
+	}	
 	if(state === STATES.WAITING_FOR_2) {
 		if(operand2 !== "") {
 			if(unaryOperator !== "") {
@@ -409,149 +428,34 @@ function handleEquals(input) {
 	}
 }
 
-/* to be refactored & deleted
 
-*/
 
 
 function handleInput(input) {
-	
 	if(input === "AC") {
 		clearAll(input);
 	}
-
 	if(input === "-") {
 		handleNegativeSign(input);
 	}// only neg sign, for minus as binary operator see farther below
-
 	if(/^[0-9]$/.test(input)) {
 		handleDigits(input);
 	}
-	
 	if(/^[.]$/.test(input)) {
 		handleDecimalPoint(input);
 	}
-
 	if(/^[%²!√]$/.test(input)) {
 		handleUnaryOperators(input);
 	}
-	
 	if(/^[+\-×÷]$/.test(input) || input === "mod") {
 		handleBinaryOperators(input);
 	}
-
 	if(input === "C") {
 		undoLastAction(input);
 	}
-
 	if(input === "=") {
 		handleEquals(input);
 	}
-
-
-
-// The state "Waiting for operand2" is characterized by:
-//	- operand1 is not empty and is outputted on upperScreen alongside binaryOperator
-//	- unaryOperator is empty and ready to use regardless of whether it was used previously
-//	- starts with Operand2 as empty string
-
-
-
-
-		
-
-// undo last action unless if last action is press binary operator > to be handled in state2 -- don't forget! Do it here:
-
-/* to be refactored & deleted
-
-*/
-		
-
-
-
-
-	if (state === STATES.ERROR) {
-		if (input === "AC") {
-			if (challengeActive) {
-				upperScreen.textContent = "You really thought that would be so easy? To get out of the error swamp, give me the first 8 decimals of pi!";
-				lowerScreen.textContent = "3.";
-				upperScreen.style.fontSize = "15px";
-				lowerScreen.style.fontSize = "20px";
-			} else {
-				upperScreen.style.fontSize = originalUpperFontSize;
-				lowerScreen.style.fontSize = originalLowerFontSize;
-				operand1 = "";
-				operand2 = "";
-				binaryOperator = "";
-				unaryOperator = "";
-				upperScreen.textContent = "";
-				lowerScreen.textContent = "0";
-				state = STATES.WAITING_FOR_1;
-			}
-		} else if (challengeActive && /^[0-9]$/.test(input)) {
-			lowerScreen.textContent += input; // Append number to lower screen
-			if (lowerScreen.textContent === "3.14159265") {
-				upperScreen.textContent = "Good. But don't get yourself in trouble again!";
-				challengeActive = false; // Deactivate the challenge
-			} else if (lowerScreen.textContent.length > 10) {
-				upperScreen.textContent = "Incorrect! Try again.";
-				lowerScreen.textContent = "3."; // Reset lower screen
-			}
-		}
-	};
-
-//offer here the possibility to keep working from the result:
-//	it will be transfered to operand1 which will be outputted on upper screen if a binary operator is inputted
-//	user can add a unary operator to the result to modify it before it is outputted as described above 
-	if(state === STATES.RESULT) {
-		if(/^[√%²!]$/.test(input)) {
-				unaryOperator = input;
-				operand1 = result;
-				operand2 = "";
-				upperScreen.textContent = "";
-			if(input === "√") {
-				lowerScreen.textContent = unaryOperator + operand1;
-			} else {
-				lowerScreen.textContent = operand1 + unaryOperator;
-			}
-			state = STATES.WAITING_FOR_1;
-		};
-		if(/^[+\-×÷]$/.test(input)|| input === "mod") {
-			operand1 = result;
-			operand2 = "";
-			binaryOperator = input;
-			upperScreen.textContent = operand1 + " " + binaryOperator;
-			lowerScreen.textContent = "0";
-			state = STATES.WAITING_FOR_2;
-		};
-	};
 	checkInitialZero();
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
