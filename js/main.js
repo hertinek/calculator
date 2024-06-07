@@ -228,11 +228,19 @@ function handleDecimalPoint(input) {
 			lowerScreen.textContent = operand1;
 		} else if(!operand1.includes(".") && operand1 !== "-") {
 			operand1 += input;
-			lowerScreen.textContent = unaryOperator + operand1;
+			lowerScreen.textContent = unaryOperator + operand1;//keep unaryOperator if it exists, if it's empty it won't show on the screen
 		};
-	};
+	}
+	if(state === STATES.WAITING_FOR_2) {
+		if(operand2 === "") {
+			operand2 = "0.";
+			lowerScreen.textContent = operand2;
+		} else if(!operand2.includes(".") && operand2 !== "-") {
+			operand2 += input;
+			lowerScreen.textContent = unaryOperator + operand2; //same, keep unaryOperator if it exists, if it's empty it won't show on the screen
+		};
+	}
 };
-
 
 function handleDigits(input) {
 	if(state === STATES.WAITING_FOR_1) {
@@ -241,7 +249,17 @@ function handleDigits(input) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;
 	}
+	if(state === STATES.WAITING_FOR_2) {
+		if(operand2 !== "0"
+		&& !/^[%²!]$/.test(unaryOperator))
+			operand2 += input;
+			lowerScreen.textContent = unaryOperator + operand2;	
+	}	
 }
+
+/* to be refactored & deleted
+
+*/
 
 function handleUnaryOperators(input) {
 	if(state === STATES.WAITING_FOR_1) {
@@ -343,7 +361,7 @@ function handleInput(input) {
 
 	if(input === "-") {
 		handleNegativeSign(input);
-	}// only neg sign, for - as binary operator see farther below
+	}// only neg sign, for minus as binary operator see farther below
 
 	if(/^[0-9]$/.test(input)) {
 		handleDigits(input);
@@ -384,21 +402,8 @@ function handleInput(input) {
 			unaryOperator = input;
 			lowerScreen.textContent = unaryOperator;
 		};
-		if(/^[0-9]$/.test(input)
-		&& operand2 !== "0"
-		&& !/^[%²!]$/.test(unaryOperator)) {
-			operand2 += input;
-			lowerScreen.textContent = unaryOperator + operand2;
-		};
-		if(/^[.]$/.test(input)) {
-			if(operand2 === "") {
-				operand2 = "0.";
-				lowerScreen.textContent = operand2;
-			} else if(!operand2.includes(".") && operand2 !== "-") {
-				operand2 += input;
-				lowerScreen.textContent = unaryOperator + operand2; //same, keep unaryOperator if it exists, if it's empty it won't show on the screen
-			};
-		};
+
+
 
 		
 		if(/^[%²!]$/.test(input)) {
