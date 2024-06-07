@@ -354,10 +354,6 @@ function undoLastAction() {
 	}
 }
 
-/* to be refactored & deleted
-
-*/
-
 function handleEquals(input) {
 	if(state === STATES.WAITING_FOR_1) {
 		if(operand1 !== "" && operand1 !== "-") {
@@ -381,7 +377,41 @@ function handleEquals(input) {
 			}
 		}
 	}
+	
+	if(state === STATES.WAITING_FOR_2) {
+		if(operand2 !== "") {
+			if(unaryOperator !== "") {
+				result = operations[unaryOperator](+operand2);
+				if(result === "error"
+				|| result === "exceeded") {
+						if(result === "error"){
+							upperScreen.textContent = "Invalid operation";
+						} else if (result = "exceeded") {
+							upperScreen.textContent = "Operation limit exceeded";
+						}
+						lowerScreen.textContent = "Press AC to exit";
+						state = STATES.ERROR;
+						challengeActive = true;
+				} else {
+					operand2 = result;
+					upperScreen.textContent = operand1 + " " + binaryOperator + " " + operand2;
+					result = operations[binaryOperator](+operand1, +operand2);
+					lowerScreen.textContent = result;
+					state = STATES.RESULT;
+				}
+			} else {
+				result = operations[binaryOperator](+operand1, +operand2);
+				upperScreen.textContent = +operand1 + " " + binaryOperator + " " + +operand2;
+				lowerScreen.textContent = result;
+				state = STATES.RESULT;
+			}
+		}
+	}
 }
+
+/* to be refactored & deleted
+
+*/
 
 
 function handleInput(input) {
@@ -427,43 +457,17 @@ function handleInput(input) {
 
 
 
-	if(state === STATES.WAITING_FOR_2) {
 
 		
 
 // undo last action unless if last action is press binary operator > to be handled in state2 -- don't forget! Do it here:
 
-		if(input === "=" && operand2 !== "") {
-			if(unaryOperator === "%"
-			|| unaryOperator === "²"
-			|| unaryOperator === "√"
-			|| unaryOperator === "!") {
-				result = operations[unaryOperator](+operand2);
-				if(result === "error"
-				|| result === "exceeded") {
-						if(result === "error"){
-							upperScreen.textContent = "Invalid operation";
-						} else if (result = "exceeded") {
-							upperScreen.textContent = "Operation limit exceeded";
-						}
-						lowerScreen.textContent = "Press AC to exit";
-						state = STATES.ERROR;
-						challengeActive = true;
-				} else {
-					operand2 = result;
-					upperScreen.textContent = operand1 + " " + binaryOperator + " " + operand2;
-					result = operations[binaryOperator](+operand1, +operand2);
-					lowerScreen.textContent = result;
-					state = STATES.RESULT;
-				}
-			} else {
-				result = operations[binaryOperator](+operand1, +operand2);
-				upperScreen.textContent = +operand1 + " " + binaryOperator + " " + +operand2;
-				lowerScreen.textContent = result;
-				state = STATES.RESULT;
-			}
-		};
-	};
+/* to be refactored & deleted
+
+*/
+		
+
+
 
 
 	if (state === STATES.ERROR) {
