@@ -115,7 +115,7 @@ let upperScreen = document.querySelector("#upper-screen");
 upperScreen.textContent = "";
 let lowerScreen = document.querySelector("#lower-screen");
 lowerScreen.textContent = "0";
-// Storing initial screen sizes in case it is changed in the course of the program:
+// Storing initial screen font sizes in case it is changed in the course of the program:
 const originalUpperFontSize = window.getComputedStyle(upperScreen).fontSize;
 const originalLowerFontSize = window.getComputedStyle(lowerScreen).fontSize;
 
@@ -193,7 +193,6 @@ function clearAll(input) {
 				state = STATES.WAITING_FOR_1;
 			}
 		} else if(challengeActive && /^[0-9]$/.test(input)) {
-			console.log(input);
 			lowerScreen.textContent += input; // Append number to lower screen
 			if (lowerScreen.textContent === "3.14159265") {
 				upperScreen.textContent = "Good. But don't get yourself in trouble again!";
@@ -223,7 +222,7 @@ function handleNegativeSign(input) {
 			lowerScreen.textContent = unaryOperator + operand2; //unaryOperator is here just in case √ is used before, which will result in an error but the calculation should be able to be put anyways - operand2 will consist solely of the negative sign
 		}
 	}
-};
+}
 
 
 function handleDecimalPoint(input) {
@@ -312,13 +311,15 @@ function handleBinaryOperators(input) {
 					if(result === "error"){
 						upperScreen.textContent = "Invalid operation";
 					} else if(result === "exceeded") {
-							upperScreen.textContent = "Operation limit exceeded";
+						upperScreen.textContent = "Operation limit exceeded";
 					}
 					lowerScreen.textContent = "Press AC to exit";
 //					upperScreen.style.fontSize = "20px";
 //					lowerScreen.style.fontSize = "23px";
 					state = STATES.ERROR;
 					challengeActive = true;
+					checkInitialZero();
+					return
 				} else {
 					operand1 = result;
 					upperScreen.textContent = operand1 + " " + binaryOperator;
