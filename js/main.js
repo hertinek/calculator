@@ -257,10 +257,6 @@ function handleDigits(input) {
 	}	
 }
 
-/* to be refactored & deleted
-
-*/
-
 function handleUnaryOperators(input) {
 	if(state === STATES.WAITING_FOR_1) {
 		if(input === "√" && operand1 === "") {
@@ -272,10 +268,21 @@ function handleUnaryOperators(input) {
 			lowerScreen.textContent += unaryOperator;
 		}
 	}
+	if(state === STATES.WAITING_FOR_2) {
+		if(input === "√" && operand2 === "") {
+			unaryOperator = input;
+			lowerScreen.textContent = unaryOperator;
+		} else if(input !== "√" && unaryOperator === ""
+		&& operand2 !== "" && operand2 !== "-") {
+			unaryOperator = input;
+			lowerScreen.textContent += unaryOperator;
+		}
+	}
 }
 
 function handleBinaryOperators(input) {
 	if(state === STATES.WAITING_FOR_1) {
+// note that binary operators (including modulo) are active only in state "waiting for operand1" 
 		if(operand1 !== "-" && operand1 !== "") {
 			binaryOperator = input;
 			if(unaryOperator !== "") {
@@ -325,7 +332,31 @@ function undoLastAction() {
 			lowerScreen.textContent = "0";
 		}
 	}
+	if(state === STATES.WAITING_FOR_2) {
+		if(binaryOperator !== "" && operand2 === "" && unaryOperator === "") {
+			binaryOperator = "";
+			upperScreen.textContent = "";
+			lowerScreen.textContent = operand1;
+			state = STATES.WAITING_FOR_1;
+		} else if(/[²%!]$/.test(unaryOperator)) {
+			unaryOperator = "";
+			lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+		} else if(operand2.length > 1
+			&& /[0-9.]$/.test(operand2)) {
+			lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
+			operand2 = operand2.slice(0, -1);
+		} else if(/^[0-9\-]$/.test(operand2)
+			|| (unaryOperator === "√" && operand2 === "") ) {
+			unaryOperator = "";
+			operand2 = "";
+			lowerScreen.textContent = "0";
+		}
+	}
 }
+
+/* to be refactored & deleted
+
+*/
 
 function handleEquals(input) {
 	if(state === STATES.WAITING_FOR_1) {
@@ -398,42 +429,10 @@ function handleInput(input) {
 
 	if(state === STATES.WAITING_FOR_2) {
 
-		if(input === "√" && operand2 === "") {
-			unaryOperator = input;
-			lowerScreen.textContent = unaryOperator;
-		};
-
-
-
 		
-		if(/^[%²!]$/.test(input)) {
-			if(unaryOperator === "" && operand2 !== "" && operand2 !== "-") {
-			unaryOperator = input;
-			lowerScreen.textContent += unaryOperator;
-			};
-		};
-// note that binary operators (including mod) are not active in this state
+
 // undo last action unless if last action is press binary operator > to be handled in state2 -- don't forget! Do it here:
-		if(input === "C") {
-			if(binaryOperator !== "" && operand2 === "" && unaryOperator === "") {
-				binaryOperator = "";
-				upperScreen.textContent = "";
-				lowerScreen.textContent = operand1;
-				state = STATES.WAITING_FOR_1;
-			} else if(/[²%!]$/.test(unaryOperator)) {
-				unaryOperator = "";
-				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
-			} else if(operand2.length > 1
-				&& /[0-9.]$/.test(operand2)) {
-				lowerScreen.textContent = lowerScreen.textContent.slice(0, -1);
-				operand2 = operand2.slice(0, -1);
-			} else if(/^[0-9\-]$/.test(operand2)
-				|| (unaryOperator === "√" && operand2 === "") ) {
-				unaryOperator = "";
-				operand2 = "";
-				lowerScreen.textContent = "0";
-			}
-		};
+
 		if(input === "=" && operand2 !== "") {
 			if(unaryOperator === "%"
 			|| unaryOperator === "²"
