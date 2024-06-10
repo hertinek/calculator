@@ -248,19 +248,21 @@ function handleDecimalPoint(input) {
 
 function handleDigits(input) {
 	if(state === STATES.WAITING_FOR_1) {
-		if(operand1 !== "0"
-		&& !/^[%²!]$/.test(unaryOperator)) 
+		if(operand1 !== "0"// don't add digits after 0
+		&& !/^[%²!]$/.test(unaryOperator)) {
 			operand1 += input;
 			lowerScreen.textContent = unaryOperator + operand1;
+		}
 	}
 	if(state === STATES.WAITING_FOR_2) {
 		if(operand2 !== "0"
-		&& !/^[%²!]$/.test(unaryOperator))
+		&& !/^[%²!]$/.test(unaryOperator)) {
 			operand2 += input;
 			lowerScreen.textContent = unaryOperator + operand2;	
+		}
 	}
 	if(state === STATES.ERROR) {
-		clearAll(input);
+		clearAll(input);// necessary to give the answer to the challenge
 	}
 }
 
