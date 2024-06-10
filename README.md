@@ -50,9 +50,6 @@ Available keys on the keyboard (tested) (some give the exact same inputs as the 
 	Note that the total number of actual keys that it represents cannot be asserted because of the different physical keyboards that users can have (mainly with or without a number keypad) but also the mapping that is used by their operating system.
 
 Currently working on fonts.
-Characters to check : 0-9*+-/=.,×XS÷M%V!²√ lorem ipsum dolor
-
-New bug: apparently I can write 3 + ! + 1 and that gives !31
 
 Things to keep in mind (to implement later for instance, or just be mindful about):
 	- create animation when clicking buttons, to be mirrored with keyboard keys

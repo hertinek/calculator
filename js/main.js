@@ -316,8 +316,8 @@ function handleBinaryOperators(input) {
 						upperScreen.textContent = "Operation limit exceeded";
 					}
 					lowerScreen.textContent = "Press AC to exit";
-//					upperScreen.style.fontSize = "20px";
-//					lowerScreen.style.fontSize = "23px";
+					upperScreen.style.fontSize = "20px";
+					lowerScreen.style.fontSize = "23px";
 					state = STATES.ERROR;
 					challengeActive = true;
 					checkInitialZero();
@@ -400,6 +400,8 @@ function handleEquals(input) {
 						upperScreen.textContent = "Operation limit exceeded";
 					}
 					lowerScreen.textContent = "Press AC to exit";
+					upperScreen.style.fontSize = "20px";
+					lowerScreen.style.fontSize = "23px";
 					state = STATES.ERROR;
 					challengeActive = true;	
 				} else {
@@ -422,6 +424,8 @@ function handleEquals(input) {
 							upperScreen.textContent = "Operation limit exceeded";
 						}
 						lowerScreen.textContent = "Press AC to exit";
+						upperScreen.style.fontSize = "20px";
+						lowerScreen.style.fontSize = "23px";
 						state = STATES.ERROR;
 						challengeActive = true;
 				} else {
