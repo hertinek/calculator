@@ -55,7 +55,7 @@ const operations = {
 	"!": (operand) => factorial(operand),
 }
 
-// Listen to keyboard events AND to button events. The keyboard event function must also filter out the unnecessary characters (those other digits and operators, equals, clear all, undo).
+// Listen to keyboard events AND to button events. The keyboard event function must also filter out the unnecessary characters.
 document.addEventListener('keydown', event => {
 	key = event.key;
 	if(/^[0-9*+\-/=.,×XS÷M%V!²]$/.test(key) || key === 'Enter' || key === 'Backspace' || key === 'Escape') {

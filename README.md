@@ -49,13 +49,10 @@ Available keys on the keyboard (tested) (some give the exact same inputs as the 
 		'Escape' key (for 'AC')
 	Note that the total number of actual keys that it represents cannot be asserted because of the different physical keyboards that users can have (mainly with or without a number keypad) but also the mapping that is used by their operating system.
 
-Currently working on fonts.
 
 Things to keep in mind (to implement later for instance, or just be mindful about):
-	- create animation when clicking buttons, to be mirrored with keyboard keys
 	- create a chart with instructions and information about the calculator, to be displayed next to it
 	- leave a tiny space every three digits
-	- add a font for buttons and digits to standardize outputs on different navigators
 	
 	
 	

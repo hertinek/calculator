@@ -81,14 +81,20 @@ p#lower-screen {
 .button {
 	font-family: 'Roboto-Regular', sans-serif;
 	font-size: 20px;
-	width: 58px;
-	height: 58px;
+	width: 57px;
+	height: 57px;
 	border: 2px solid darkblue;
 	border-radius: 5px;
-	box-shadow: 4px 4px 6px;
+/*	box-shadow: 4px 4px 6px;*/
+	box-shadow: 0 3px #999;
+
 	flex: none;
 	cursor:pointer;
 	background-color: lightblue;
+}
+.button:active {
+	box-shadow: 0 1px #666;
+	transform: translateY(2px);
 }
 .button.digit {
 	color: white;
