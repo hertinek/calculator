@@ -1,9 +1,15 @@
 @font-face {
-  font-family: 'Calculator'; /* Name your font family */
-  src: url('../fonts/Calculator.ttf'); /* Locate the .ttf file within your directory*/
-  font-family: 'TICELarge'; /* Name your font family */
-  src: url('../fonts/TICELarge.ttf'); /* Locate the .ttf file within your directory*/
+	font-family: 'TICELarge'; /* Name your font family */
+	src: url('../fonts/TICELarge.ttf'); /* Locate the .ttf file within your directory*/
+/*  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf');*/
 }
+
+@font-face {
+	font-family: 'Roboto-Regular';
+	src: url('../fonts/Roboto-Regular.ttf');
+}
+
 
 body {
 	margin: 0;
@@ -47,14 +53,14 @@ p#upper-screen {
 	white-space: wrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-size: 30px; /*original 30 not bold*/
+	font-size: 30px;
 	margin: 0px 5px;
 }
 p#lower-screen {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	font-size: 35px; /* original 35 bold*/
+	font-size: 35px;
 	font-weight: bold;
 	margin: 0px 5px;
 	text-align: right;
@@ -64,6 +70,7 @@ p#lower-screen {
 }
 
 #controls {
+	font-family: 'Roboto-Regular', sans-serif;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -72,6 +79,7 @@ p#lower-screen {
 }
 
 .button {
+	font-family: 'Roboto-Regular', sans-serif;
 	font-size: 20px;
 	width: 59px;
 	height: 59px;
